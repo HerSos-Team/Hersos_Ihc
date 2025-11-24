@@ -18,8 +18,13 @@
     <header class="header" role="banner">
       <div class="container">
         <div class="brand" aria-label="HerSOS">
-          <div class="logo" aria-hidden="true">H</div>
-          <b>HerSOS</b>
+          <picture>
+            <source srcset="assets/images/logo.herSos.png" type="image/png">
+            <img src="assets/images/logo.svg" alt="HerSOS logo" class="brand__logo" />
+          </picture>
+          <div class="brand__text">
+            <b>HerSOS</b>
+          </div>
         </div>
         <a class="btn" href="#inicio" aria-label="Empezar">Empezar</a>
       </div>
@@ -44,9 +49,7 @@
             <div>
               <h1 class="h1">Tu Seguridad en<br />un Solo Toque</h1>
               <p class="lead">
-                Aplicación de respuesta inmediata que protege a mujeres ante
-                acoso o violencia, conectándolas en segundos con redes de apoyo
-                y ayuda.
+                Una solución integral diseñada para mujeres que buscan sentirse seguras en su día a día. HerSOS ofrece alertas rápidas, conexión con contactos de confianza, guía de recursos y herramientas preventivas, todo pensado para actuar en los momentos más críticos y brindarte tranquilidad en cualquier lugar.
               </p>
               <div class="hero-ctas" role="group" aria-label="Acciones">
                 <a class="btn btn-primary" href="#propuesta">Descubrir</a>
@@ -55,48 +58,38 @@
             </div>
             <aside class="device" aria-label="Vista del producto">
               <div class="screen" role="img" aria-label="Mockup de teléfono">
-                <svg
-                  viewBox="0 0 320 640"
-                  xmlns="http://www.w3.org/2000/svg"
-                  aria-hidden="true"
-                >
-                  <defs>
-                    <linearGradient id="phg" x1="0" y1="0" x2="1" y2="1">
-                      <stop offset="0" stop-color="#4c1d95" />
-                      <stop offset="1" stop-color="#6d28d9" />
-                    </linearGradient>
-                  </defs>
-                  <rect
-                    x="24"
-                    y="20"
-                    width="272"
-                    height="600"
-                    rx="36"
-                    fill="url(#phg)"
-                    stroke="#0b0b16"
-                    stroke-width="6"
-                  />
-                  <rect
-                    x="120"
-                    y="34"
-                    width="80"
-                    height="18"
-                    rx="9"
-                    fill="#0b0b16"
-                  />
-                  <text
-                    x="160"
-                    y="330"
-                    font-size="32"
-                    text-anchor="middle"
-                    fill="#ffffff"
-                    font-family="ui-sans-serif,system-ui,Arial"
-                  >
-                    HerSOS
-                  </text>
-                </svg>
-              </div>
+                  <img src="assets/images/mockup_inicio.png" alt="Mockup inicio" />
+                </div>
             </aside>
+          </div>
+        </div>
+      </section>
+
+      <!-- MISIÓN (sección independiente, justo después del hero) -->
+      <section id="mision" class="section mision" aria-label="Misión">
+        <div class="container">
+          <div class="mision">
+            <span class="badge">Misión</span>
+            <h3 class="h1">Nuestra Misión</h3>
+            <div class="mision__inner">
+              <div class="mision__text">
+                <p class="lead">Poner al alcance de las mujeres una herramienta digital sencilla y confiable que les permita pedir ayuda de inmediato en situaciones de riesgo, conectándolas con redes de apoyo y utilizando IA para dar respuestas rápidas y efectivas.</p>
+              </div>
+              <figure class="mision__image" aria-hidden="true">
+                <img src="assets/images/mision.jpg" alt="Imagen misión" />
+              </figure>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- VISIÓN (sección independiente, debajo de Misión) -->
+      <section id="vision" class="section vision" aria-label="Visión">
+        <div class="container">
+          <div class="vision">
+            <span class="badge">Visión</span>
+            <h3 class="h1">Nuestra Visión</h3>
+            <p class="lead">Convertirse en la aplicación de referencia en Latinoamérica en materia de asistencia tecnológica contra la violencia de género, destacando por su impacto positivo en la vida de las mujeres y por su contribución a construir entornos más seguros.</p>
           </div>
         </div>
       </section>
@@ -188,6 +181,8 @@
           </div>
         </div>
       </section>
+
+      
 
       <!-- BANDA FRASE -->
       <div class="band" aria-label="Frase">
@@ -302,16 +297,36 @@
 
     <!-- Footer -->
     <footer class="footer" role="contentinfo">
-      <div class="container">
-        <span>© <span id="y">2025</span> HerSOS</span>
-        <span id="contacto">
-          Contacto:
-          <a href="mailto:soporte@hersos.app">soporte@hersos.app</a>
-        </span>
-        <div class="footer-extra">
-          <p>Desarrollado por el equipo HerSOS. Todos los derechos reservados.</p>
-          <p>Síguenos en redes sociales: <a href="#">Instagram</a> | <a href="#">Facebook</a></p>
+      <div class="container footer-grid">
+        <div class="footer-about">
+          <picture>
+            <source srcset="assets/images/logo.herSos.png" type="image/png">
+            <img src="assets/images/logo.svg" alt="HerSOS" class="footer-logo" />
+          </picture>
+          <p>HerSOS ofrece una herramienta de asistencia rápida para mujeres en situaciones de riesgo, conectando con redes de apoyo y recursos.</p>
         </div>
+        <div class="footer-links">
+          <h4>Enlaces</h4>
+          <ul>
+            <li><a href="#inicio">Inicio</a></li>
+            <li><a href="#propuesta">Propuesta</a></li>
+            <li><a href="#funciones">Funciones</a></li>
+            <li><a href="#testimonios">Testimonios</a></li>
+          </ul>
+        </div>
+        <div class="footer-contact">
+          <h4>Contacto</h4>
+          <p>Email: <a href="mailto:soporte@hersos.app">soporte@hersos.app</a></p>
+          <p>Tel: <a href="tel:+51123456789">+51 123 456 789</a></p>
+        </div>
+        <div class="footer-social">
+          <h4>Síguenos</h4>
+          <p><a href="#">Instagram</a></p>
+          <p><a href="#">Facebook</a></p>
+        </div>
+      </div>
+      <div class="container footer-bottom">
+        <small>© <span id="y">2025</span> HerSOS — Todos los derechos reservados.</small>
       </div>
     </footer>
 

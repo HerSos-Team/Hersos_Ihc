@@ -10,6 +10,127 @@
   text-decoration: underline;
   margin: 0 4px;
 }
+
+/* ===== Brand logo styles ===== */
+.brand__logo {
+  width: 40px;
+  height: 40px;
+  display: block;
+  border-radius: 8px;
+}
+.brand__text b {
+  margin-left: 10px;
+  font-size: 1.05rem;
+}
+
+/* ===== Footer improved ===== */
+.footer-grid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1fr 1fr;
+  gap: 24px;
+  padding: 36px 0 18px;
+}
+.footer-about p {
+  margin: 10px 0 0;
+  color: var(--muted);
+}
+.footer-logo {
+  width: 56px;
+  height: 56px;
+}
+.footer-links ul {
+  list-style: none;
+  padding: 0;
+  margin: 8px 0 0;
+}
+.footer-links li { margin: 6px 0; }
+.footer-links a { color: var(--ink); text-decoration: none; }
+.footer-links a:hover { text-decoration: underline; }
+.footer-contact p { margin: 6px 0; color: var(--muted); }
+.footer-social p { margin: 6px 0; }
+.footer-bottom { border-top: 1px solid var(--line); padding: 14px 0; text-align: center; color: var(--muted); }
+
+@media (max-width: 900px) {
+  .footer-grid { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 520px) {
+  .footer-grid { grid-template-columns: 1fr; }
+  .brand__text b { display: none; }
+}
+
+/* ===== Misión & Visión ===== */
+.mision-vision__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+  align-items: start;
+}
+/* soportar también .mision y .vision como secciones independientes */
+.mision-vision__grid .mision,
+.mision-vision__grid .vision,
+.mision,
+.vision {
+  border-radius: 16px;
+  padding: 22px;
+  box-shadow: 0 6px 18px rgba(31,18,53,0.06);
+}
+
+/* Destacar Misión: fondo morado y ajuste de colores para legibilidad */
+.mision-vision__grid .mision,
+.mision {
+  background: linear-gradient(180deg, var(--brand-700), var(--brand-600));
+  color: #fff;
+  border: 0;
+}
+.mision .h1 {
+  color: #fff;
+}
+.mision .lead {
+  color: rgba(255,255,255,0.92);
+}
+.mision .badge {
+  background: rgba(255,255,255,0.08);
+  border-color: rgba(255,255,255,0.12);
+  color: #fff;
+}
+.mision__image img {
+  border: 4px solid rgba(255,255,255,0.06);
+  box-shadow: 0 18px 40px rgba(31,18,53,0.12);
+}
+.mision .h1,
+.vision .h1 {
+  font-size: 1.25rem;
+  margin-top: 6px;
+}
+
+/* Layout for mission inner content: text + image */
+.mision__inner {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: 18px;
+  align-items: center;
+}
+.mision__image img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 12px;
+  box-shadow: 0 10px 28px rgba(31,18,53,0.06);
+  border: 0;
+}
+
+@media (max-width: 720px) {
+  .mision__inner {
+    grid-template-columns: 1fr;
+  }
+  .mision__image { order: 2; }
+}
+
+@media (max-width: 720px) {
+  .mision-vision__grid {
+    grid-template-columns: 1fr;
+  }
+}
 /* ===== Testimonios ===== */
 .section-testimonios {
   background: var(--bg-weak);
@@ -234,7 +355,7 @@ button {
 }
 .lead {
   margin: 0 0 18px;
-  max-width: 62ch;
+  max-width: 68ch;
   color: #4b3a64;
   line-height: 1.6;
   font-size: clamp(16px, 1.6vw, 18px);
@@ -253,8 +374,14 @@ button {
 
 /* ===== Hero ===== */
 .hero {
-  padding: 96px 0 80px;
+  padding: 48px 0 80px;
   background: #fff;
+}
+
+/* Ensure hero lead is a bit more prominent */
+.hero .lead {
+  font-size: clamp(16px, 1.8vw, 20px);
+  opacity: 0.95;
 }
 .hero .shell {
   display: grid;
@@ -283,6 +410,32 @@ button {
   height: 92%;
 }
 
+/* Ensure images placed inside .screen scale nicely */
+.screen {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.screen img {
+  max-width: 92%;
+  max-height: 92%;
+  display: block;
+  object-fit: contain;
+  border-radius: 14px;
+}
+
+/* Remove boxed background around the hero mockup so the full image shows without a card */
+.hero .device,
+.hero .screen {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+}
+.hero .screen {
+  height: auto;
+}
+
 /* ===== Sections generic ===== */
 .section {
   padding: 96px 0;
@@ -308,7 +461,20 @@ button {
 }
 .section-dark .device {
   background: transparent;
-  border-color: #a78bfa;
+  border: 0;
+  border-color: transparent;
+  padding: 0;
+  box-shadow: none;
+}
+
+/* Problema: imagen limpia, sin borde de la caja que la contiene */
+.section-dark .device img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+  box-shadow: 0 8px 28px rgba(31,18,53,0.06);
+  border: 0;
 }
 
 /* ===== Quote band ===== */
@@ -361,9 +527,15 @@ button {
   margin-bottom: 18px;
 }
 .team__grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  display: flex;
+  flex-wrap: wrap;
   gap: 18px;
+  justify-content: center;
+  align-items: start;
+}
+.team__grid .member {
+  flex: 1 1 220px;
+  max-width: 280px;
 }
 .member {
   background: #fff;
@@ -516,3 +688,138 @@ section[id],
     gap: 24px;
   }
 }
+
+/* ===== Reveal animations (scroll) ===== */
+.reveal {
+  opacity: 0;
+  transform: translateY(18px) scale(0.995);
+  transition: opacity 700ms cubic-bezier(.2,.9,.2,1), transform 700ms cubic-bezier(.2,.9,.2,1);
+  transition-delay: var(--reveal-delay, 0ms);
+  will-change: opacity, transform;
+}
+.reveal.in-view {
+  opacity: 1;
+  transform: none;
+}
+
+/* Hero entrance tweaks */
+.hero .h1.reveal { transition-duration: 900ms; }
+.hero .hero-ctas.reveal { transition-delay: 120ms; }
+
+/* Testimonios: foco en testimonial activo */
+.testimonio {
+  opacity: 0.7;
+  transform: translateY(8px) scale(0.995);
+  transition: opacity 600ms ease, transform 600ms ease;
+}
+.testimonio.active {
+  opacity: 1;
+  transform: none;
+  box-shadow: 0 10px 30px rgba(31,18,53,0.08);
+}
+
+/* Botón con pequeño pulso */
+@keyframes btn-pulse {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-3px); }
+  100% { transform: translateY(0); }
+}
+.btn-primary { animation: btn-pulse 4s ease-in-out infinite; }
+
+/* Floating animation for mockup screens */
+@keyframes floaty {
+  0% { transform: translateY(0) rotate(-0.25deg); }
+  50% { transform: translateY(-8px) rotate(0.25deg); }
+  100% { transform: translateY(0) rotate(-0.25deg); }
+}
+.screen.float {
+  animation: floaty 6s ease-in-out infinite;
+}
+
+/* Logo pop entrance */
+@keyframes logo-pop {
+  0% { transform: scale(0.6); opacity: 0; }
+  60% { transform: scale(1.05); opacity: 1; }
+  100% { transform: scale(1); }
+}
+.brand__logo.logo-entrance {
+  animation: logo-pop 700ms cubic-bezier(.2,.9,.2,1) forwards;
+}
+
+/* Alternate section coloring: even sections morado, odd blancas */
+main > section:nth-of-type(even) {
+  background: var(--brand-700);
+  color: #fff;
+}
+main > section:nth-of-type(even) .lead {
+  color: #efe9ff;
+}
+main > section:nth-of-type(even) .badge {
+  background: rgba(255,255,255,0.08);
+  border-color: rgba(255,255,255,0.12);
+  color: #fff;
+}
+main > section:nth-of-type(even) .card,
+main > section:nth-of-type(even) .member,
+main > section:nth-of-type(even) .testimonio {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.06);
+  color: #fff;
+  box-shadow: none;
+}
+main > section:nth-of-type(even) .device {
+  border-color: rgba(255,255,255,0.12);
+}
+
+/* === Override for #funciones: keep it light and readable === */
+#funciones {
+  background: #fff !important;
+  color: var(--ink) !important;
+}
+#funciones .lead {
+  color: #4b3a64 !important;
+}
+#funciones .badge {
+  background: #f6f0ff;
+  border-color: #e9d5ff;
+  color: var(--brand-700);
+}
+
+/* Cards in funciones: white cards with purple accents */
+#funciones .card {
+  background: #fff !important;
+  border: 1px solid var(--ring) !important;
+  box-shadow: 0 10px 24px rgba(77, 27, 135, 0.06);
+  color: var(--ink-2) !important;
+}
+#funciones .card h4 { color: var(--brand-700); }
+
+/* Make sure device/mockup in funciones is visible (if any) */
+#funciones .device {
+  background: var(--card) !important;
+  border: 1px solid var(--line) !important;
+  box-shadow: var(--shadow) !important;
+  padding: 16px !important;
+}
+
+/* If nth-of-type even applied a white overlay to child elements, undo it here */
+#funciones .card,
+#funciones .member,
+#funciones .testimonio {
+  background: #fff !important;
+  border: 1px solid var(--line) !important;
+  color: var(--ink) !important;
+  box-shadow: 0 2px 0 #ede7ff !important;
+}
+
+/* hover enhancements */
+.card:hover {
+  transform: translateY(-8px) scale(1.01);
+  box-shadow: 0 18px 40px rgba(31,18,53,0.12);
+}
+.member:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 30px rgba(31,18,53,0.08);
+}
+
+/* Misión & Visión tweaks already added above */
