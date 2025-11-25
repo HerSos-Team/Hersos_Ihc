@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Perfil — HerSOS</title>
+    <link href="https://fonts.googleapis.com/css2?family=Itim&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/styles/styles.css" />
+    <link rel="stylesheet" href="assets/styles/dashboard.css" />
+    <style>
+      body.dashboard-page { background: #ffffff; margin: 0; padding: 0; }
+      .app-grid-profile { display: grid; grid-template-columns: 240px 1fr; gap: 0; min-height: 100vh; }
+      .sidebar { background: #450062; padding: 18px; display: flex; flex-direction: column; gap: 12px; box-shadow: 2px 0 8px rgba(69,0,98,0.1); height: 100vh; position: sticky; top: 0; overflow-y: auto; border-radius: 0; }
+      .sidebar .brand { display: flex; justify-content: center; margin-bottom: 12px; }
+      .sidebar .brand img { width: 48px; height: 48px; }
+      .side-nav { display: flex; flex-direction: column; gap: 8px; }
+      .side-item { background: transparent; border: 0; color: #fff; text-align: left; padding: 12px 10px; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 0.95rem; transition: all 0.2s; }
+      .side-item:hover { background: rgba(255,255,255,0.15); }
+      .side-item.active { background: rgba(255,255,255,0.2); font-weight: 700; }
+      .system-status { background: rgba(255,255,255,0.1); padding: 12px; border-radius: 8px; font-size: 0.9rem; margin-top: auto; }
+      .system-status h4 { margin: 0 0 10px; font-size: 0.95rem; color: #fff; }
+      .system-status ul { list-style: none; padding: 0; margin: 0; }
+      .system-status li { color: rgba(255,255,255,0.9); margin-bottom: 6px; font-size: 0.85rem; }
+      .profile-container { padding: 28px 40px; width: 100%; box-sizing: border-box; background: #F8F5FF; }
+      .profile-card { padding: 32px 28px; border-radius: 16px; background: #ffffff; color: #2c2c2c; box-shadow: 0 4px 16px rgba(0,0,0,0.08); max-width: 900px; border: 2px solid #450062; }
+      .profile-header { margin-bottom: 24px; }
+      .profile-title { font-family: 'Itim', cursive; font-size: 2rem; margin: 0 0 8px; color: #450062; }
+      .profile-subtitle { font-size: 1rem; margin: 0; color: #6b6b6b; }
+      .profile-row { display: flex; flex-direction: column; gap: 8px; margin-bottom: 18px; }
+      .profile-row label { font-weight: 600; color: #2c2c2c; font-size: 1rem; }
+      .profile-row input, .profile-row textarea { padding: 12px 14px; border-radius: 8px; border: 1px solid #e5e5e5; background: #fff; color: #2c2c2c; font-size: 1rem; box-shadow: 0 2px 8px rgba(0,0,0,0.05); transition: border 0.2s; }
+      .profile-row input:focus, .profile-row textarea:focus { outline: none; border-color: #450062; box-shadow: 0 0 0 3px rgba(69,0,98,0.1); }
+      .profile-row textarea { resize: vertical; font-family: inherit; }
+      .tags-section { margin: 24px 0; padding-top: 24px; border-top: 1px solid #e5e5e5; }
+      .tags-header { font-family: 'Itim', cursive; font-size: 1.4rem; margin: 0 0 12px; color: #450062; }
+      .tags-description { font-size: 0.95rem; color: #6b6b6b; margin-bottom: 16px; }
+      .tags { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 16px; min-height: 40px; }
+      .tag-chip { background: #F8F5FF; color: #450062; padding: 8px 14px; border-radius: 999px; display: inline-flex; gap: 10px; align-items: center; font-weight: 600; font-size: 0.95rem; box-shadow: 0 2px 8px rgba(0,0,0,0.08); transition: all 0.2s; border: 1px solid #450062; }
+      .tag-chip:hover { background: #450062; color: #fff; transform: translateY(-2px); }
+      .tag-chip button { background: transparent; border: 0; color: inherit; cursor: pointer; font-weight: 700; font-size: 1.1rem; padding: 0; width: 20px; height: 20px; display: grid; place-items: center; border-radius: 50%; transition: background 0.2s; }
+      .tag-chip button:hover { background: rgba(69,0,98,0.2); }
+      .tag-input { display: flex; gap: 10px; }
+      .tag-input input { flex: 1; padding: 12px 14px; border-radius: 8px; border: 1px solid #e5e5e5; background: #fff; color: #2c2c2c; font-size: 1rem; transition: border 0.2s; }
+      .tag-input input:focus { outline: none; border-color: #450062; box-shadow: 0 0 0 3px rgba(69,0,98,0.1); }
+      .tag-input input::placeholder { color: #6b6b6b; }
+      .actions { margin-top: 28px; display: flex; gap: 12px; padding-top: 24px; border-top: 1px solid #e5e5e5; }
+      .btn-primary { background: #450062; color: #fff; border: none; border-radius: 8px; padding: 12px 24px; font-weight: 700; font-size: 1rem; cursor: pointer; transition: all 0.2s; box-shadow: 0 2px 8px rgba(69,0,98,0.2); }
+      .btn-primary:hover { background: #2b0038; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(69,0,98,0.3); }
+      .btn-secondary { background: #F8F5FF; color: #450062; border: 1px solid #450062; border-radius: 8px; padding: 12px 24px; font-weight: 600; font-size: 1rem; cursor: pointer; transition: all 0.2s; }
+      .btn-secondary:hover { background: #e9dffd; }
+    </style>
+  </head>
+  <body class="dashboard-page">
+    <header class="dash-header">
+      <div class="header-content">
+        <div class="header-left">
+          <img src="assets/images/logo.herSos.png" alt="HerSOS" class="header-logo" />
+          <span class="header-brand">HerSOS</span>
+          <span style="margin-left: 24px; font-size: 1.1rem; color: rgba(255,255,255,0.8);">/ Mi Perfil</span>
+        </div>
+        <div class="header-right">
+          <button onclick="location.href='dashboard.html'" class="btn-secondary" style="padding: 8px 16px; font-size: 0.9rem;">← Volver</button>
+        </div>
+      </div>
+    </header>
+
+    <div class="app-grid-profile">
+      <aside class="sidebar card">
+        <div class="brand">
+          <img src="assets/images/logo.herSos.png" alt="HerSOS" />
+        </div>
+        <nav class="side-nav">
+          <button class="side-item" onclick="location.href='dashboard.html'">🏠  Dashboard</button>
+          <button class="side-item" onclick="location.href='dashboard.html'" data-nav="contacts">👥  Mis Contactos</button>
+          <button class="side-item" onclick="location.href='dashboard.html'" data-nav="history">🕒  Historial de Alertas</button>
+          <button class="side-item" onclick="location.href='dashboard.html'" data-nav="chat">🤖  Luna Chat IA</button>
+          <button class="side-item" onclick="location.href='dashboard.html'" data-nav="resources">📚  Recursos Educativos</button>
+          <button class="side-item active">👤  Mi Perfil</button>
+          <button class="side-item" data-nav="settings">⚙️  Configuración</button>
+        </nav>
+        <div class="system-status card">
+          <h4>Estado del Sistema</h4>
+          <ul>
+            <li>GPS: <strong>Activo</strong></li>
+            <li>Conexión: <strong>Óptima</strong></li>
+            <li>Batería: <strong>85%</strong></li>
+          </ul>
+        </div>
+      </aside>
+
+      <main class="profile-container">
+      <section class="profile-card">
+        <div class="profile-header">
+          <h2 class="profile-title">Editar Perfil</h2>
+          <p class="profile-subtitle">Actualiza tu información personal y gestiona tus etiquetas</p>
+        </div>
+
+        <div class="profile-row">
+          <label>Nombre completo</label>
+          <input id="p_name" type="text" placeholder="Ingresa tu nombre" />
+        </div>
+        <div class="profile-row">
+          <label>Correo electrónico</label>
+          <input id="p_email" type="email" placeholder="correo@ejemplo.com" />
+        </div>
+        <div class="profile-row">
+          <label>Teléfono</label>
+          <input id="p_phone" type="tel" placeholder="+51 9xxxxxxx" />
+        </div>
+        <div class="profile-row">
+          <label>Sobre mí</label>
+          <textarea id="p_about" rows="4" placeholder="Cuéntanos un poco sobre ti..."></textarea>
+        </div>
+
+        <div class="tags-section">
+          <h3 class="tags-header">Sistema de Etiquetas</h3>
+          <p class="tags-description">Agrega etiquetas para categorizar tu perfil (ej: madre, estudiante, profesional)</p>
+          <div class="tags" id="tagsContainer">
+            <!-- Etiquetas dinámicas aquí -->
+          </div>
+          <div class="tag-input">
+            <input id="tagInput" placeholder="Escribe una etiqueta..." maxlength="30" />
+            <button id="addTagBtn" class="btn-primary">+ Agregar</button>
+          </div>
+        </div>
+
+        <div class="actions">
+          <button id="saveProfile" class="btn-primary">💾 Guardar cambios</button>
+          <button id="cancelProfile" class="btn-secondary" onclick="location.href='dashboard.html'">Cancelar</button>
+        </div>
+      </section>
+      </main>
+    </div>
+
+    <script src="assets/scripts/profile.js"></script>
+  </body>
+</html>

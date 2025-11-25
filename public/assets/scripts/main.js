@@ -19,6 +19,84 @@ cards.forEach(card => {
   });
 });
 
+// --- Autenticación mock (login / register) ---
+document.addEventListener('DOMContentLoaded', () => {
+  const openLoginBtns = Array.from(document.querySelectorAll('.auth-login'));
+  const openRegisterBtns = Array.from(document.querySelectorAll('.auth-register'));
+  const authModal = document.getElementById('authModal');
+  const overlay = authModal && authModal.querySelector('.auth-modal__overlay');
+  const closeBtns = authModal && Array.from(authModal.querySelectorAll('[data-action="close"]'));
+  const loginForm = document.getElementById('loginForm');
+  const registerForm = document.getElementById('registerForm');
+  const showRegister = document.getElementById('showRegister');
+  const showLogin = document.getElementById('showLogin');
+
+  function openAuth(mode = 'login') {
+    if (!authModal) return;
+    authModal.setAttribute('aria-hidden', 'false');
+    if (mode === 'register') {
+      loginForm.hidden = true; registerForm.hidden = false; authModal.querySelector('#authTitle').textContent = 'Crear cuenta';
+    } else {
+      loginForm.hidden = false; registerForm.hidden = true; authModal.querySelector('#authTitle').textContent = 'Iniciar sesión';
+    }
+    // focus first input
+    setTimeout(() => {
+      const first = authModal.querySelector('input:not([hidden])');
+      if (first) first.focus();
+    }, 80);
+  }
+  function closeAuth() { if (!authModal) return; authModal.setAttribute('aria-hidden', 'true'); }
+
+  openLoginBtns.forEach(b => b.addEventListener('click', () => openAuth('login')));
+  openRegisterBtns.forEach(b => b.addEventListener('click', () => openAuth('register')));
+  if (overlay) overlay.addEventListener('click', closeAuth);
+  if (closeBtns) closeBtns.forEach(cb => cb.addEventListener('click', closeAuth));
+  if (showRegister) showRegister.addEventListener('click', (e) => { e.preventDefault(); openAuth('register'); });
+  if (showLogin) showLogin.addEventListener('click', (e) => { e.preventDefault(); openAuth('login'); });
+
+  // simple registration: store user in localStorage and redirect
+  if (registerForm) {
+    registerForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = (document.getElementById('regName')||{}).value || 'Usuario';
+      const email = (document.getElementById('regEmail')||{}).value;
+      const pass = (document.getElementById('regPass')||{}).value;
+      if (!email || !pass) return alert('Completa los campos');
+      const user = { name, email };
+      localStorage.setItem('hersos_user', JSON.stringify(user));
+      // redirect to app (simulated web app)
+      window.location.href = 'app.html';
+    });
+  }
+
+  // simple login: accept any credentials (mock)
+  if (loginForm) {
+    loginForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const email = (document.getElementById('loginEmail')||{}).value;
+      const pass = (document.getElementById('loginPass')||{}).value;
+      if (!email || !pass) return alert('Introduce email y contraseña');
+      const existing = JSON.parse(localStorage.getItem('hersos_user') || 'null');
+      const user = existing && existing.email === email ? existing : { name: email.split('@')[0], email };
+      localStorage.setItem('hersos_user', JSON.stringify(user));
+      window.location.href = 'app.html';
+    });
+  }
+
+  // If user already logged in, update header to show greeting and logout
+  const stored = JSON.parse(localStorage.getItem('hersos_user') || 'null');
+  if (stored) {
+    const authWrap = document.querySelector('.auth-actions');
+    if (authWrap) {
+      authWrap.innerHTML = `<span class="greet">Hola, ${stored.name}</span> <button class="btn btn-ghost auth-logout">Cerrar sesión</button>`;
+      const logoutBtn = authWrap.querySelector('.auth-logout');
+      if (logoutBtn) logoutBtn.addEventListener('click', () => { localStorage.removeItem('hersos_user'); location.reload(); });
+      // optionally redirect directly to app
+      // window.location.href = 'app.html';
+    }
+  }
+});
+
 // Scroll suave para la barra sticky
 document.querySelectorAll('.sticky-nav a').forEach(link => {
   link.addEventListener('click', e => {

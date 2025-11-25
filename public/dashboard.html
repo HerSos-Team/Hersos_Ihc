@@ -1,0 +1,294 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>HerSOS — Panel Principal</title>
+    <link rel="stylesheet" href="assets/styles/styles.css" />
+    <!-- Tipografía Itim para títulos y texto empático -->
+    <link href="https://fonts.googleapis.com/css2?family=Itim&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/styles/dashboard.css" />
+  </head>
+  <body class="dashboard-page">
+    <header class="dash-header">
+      <div class="header-content">
+        <div class="header-left">
+          <img src="assets/images/logo.herSos.png" alt="HerSOS" class="header-logo" />
+          <span class="header-brand">HerSOS</span>
+        </div>
+        <div class="header-center">
+          <div class="search-box">
+            <span class="search-icon">🔍</span>
+            <input type="text" placeholder="Buscar..." />
+          </div>
+        </div>
+        <div class="header-right">
+          <button class="header-icon-btn">🔔</button>
+          <div class="header-user">
+            <div class="user-avatar">MG</div>
+            <span class="user-name" id="userGreeting">María G.</span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div class="app-grid">
+      <aside class="sidebar card">
+        <div class="brand">
+          <img src="assets/images/logo.herSos.png" alt="HerSOS" />
+        </div>
+        <nav class="side-nav">
+          <button class="side-item" data-nav="home">🏠  Dashboard</button>
+          <button class="side-item" data-nav="contacts">👥  Mis Contactos</button>
+          <button class="side-item" data-nav="history">🕒  Historial de Alertas</button>
+          <button class="side-item" data-nav="chat">🤖  Luna Chat IA</button>
+          <button class="side-item" data-nav="resources">📚  Recursos Educativos</button>
+          <button class="side-item" data-nav="profile">👤  Mi Perfil</button>
+          <button class="side-item" data-nav="settings">⚙️  Configuración</button>
+        </nav>
+        <div class="system-status card">
+          <h4>Estado del Sistema</h4>
+          <ul>
+            <li>GPS: <strong>Activo</strong></li>
+            <li>Conexión: <strong>Óptima</strong></li>
+            <li>Batería: <strong>85%</strong></li>
+          </ul>
+        </div>
+      </aside>
+
+      <main class="dash-main">
+      <section class="card hero-card-main">
+        <div class="hero-content">
+          <h1 class="hero-title">¡Hola, María!</h1>
+          <p class="hero-subtitle">Tu seguridad es nuestra prioridad.</p>
+        </div>
+        <div class="hero-emoji">😊</div>
+      </section>
+
+      <section class="quick-grid-main">
+        <button class="quick-card card panic-card" data-action="panic">
+          <div class="quick-icon-large">⚠️</div>
+          <div class="quick-content">
+            <h3 class="quick-title-large">Botón de Pánico</h3>
+            <p class="quick-subtitle">Mantén presionado para activar</p>
+          </div>
+        </button>
+
+        <button class="quick-card card chat-card" data-action="chat">
+          <div class="quick-icon-large">🤖</div>
+          <div class="quick-content">
+            <h3 class="quick-title-large">Chatear con Luna</h3>
+            <p class="quick-subtitle">Asistente IA 24/7</p>
+          </div>
+        </button>
+
+        <button class="quick-card card contacts-card" data-action="contacts">
+          <div class="quick-icon-large">👥</div>
+          <div class="quick-content">
+            <h3 class="quick-title-large">Añadir Contacto</h3>
+            <p class="quick-subtitle">Amplía tu red de apoyo</p>
+          </div>
+        </button>
+
+        <button class="quick-card card history-card" data-action="history">
+          <div class="quick-icon-large">🕒</div>
+          <div class="quick-content">
+            <h3 class="quick-title-large">Ver tu Historial</h3>
+            <p class="quick-subtitle">Todas tus alertas pasadas</p>
+          </div>
+        </button>
+      </section>
+
+      <section class="card security-summary">
+        <h3 class="section-title-main">Resumen de tu Seguridad</h3>
+        <p class="section-subtitle">Estado actual de tu protección</p>
+        <div class="summary-grid">
+          <div class="summary-item card">
+            <div class="summary-number">3/5</div>
+            <p class="summary-label">Contactos Activos</p>
+            <div class="summary-icon">👥</div>
+          </div>
+          <div class="summary-item card">
+            <div class="summary-number">2</div>
+            <p class="summary-label">Alertas Este Mes</p>
+            <div class="summary-icon">🔔</div>
+          </div>
+          <div class="summary-item card">
+            <div class="summary-number">Hace 3 días</div>
+            <p class="summary-label">Última Alerta</p>
+            <div class="summary-icon">📅</div>
+          </div>
+        </div>
+      </section>
+      
+      <!-- Web-version sections: hero, panic, contacts, map, resources -->
+      <section id="web-hero" class="card hero-card">
+        <h2 class="card-title">Tu seguridad en un solo toque</h2>
+        <p class="lead" style="color:var(--muted);">Simulación de la versión web: botón de pánico, contactos, mapa y recursos.</p>
+      </section>
+
+      <section id="panic" class="card section-panic">
+        <h3>Botón de Pánico</h3>
+        <p class="lead" style="color:var(--muted);">Presiona el botón para simular una alerta. Mantén 3 segundos para confirmar.</p>
+        <div class="panic-wrap">
+          <button id="panicSectionBtn" class="panic-btn section-panic-btn" aria-pressed="false">¡ALERTA!</button>
+          <div id="panicStatus" class="panic-status" aria-live="polite">Estado: inactivo</div>
+        </div>
+      </section>
+
+      <section id="contacts" class="card section-contacts">
+        <h3>Contactos de confianza</h3>
+        <div class="contacts-grid" id="contactsGrid">
+          <div class="contact card" data-phone="+5112340001">
+            <img src="assets/images/contact1.svg" alt="Ana" />
+            <div class="contact-info">
+              <strong>Ana López</strong>
+              <small>Madre</small>
+            </div>
+            <button class="contact-send">Notificar</button>
+          </div>
+          <div class="contact card" data-phone="+5112340002">
+            <img src="assets/images/contact2.svg" alt="María" />
+            <div class="contact-info">
+              <strong>María Ruiz</strong>
+              <small>Amiga</small>
+            </div>
+            <button class="contact-send">Notificar</button>
+          </div>
+          <div class="contact card" data-phone="+5112340003">
+            <img src="assets/images/contact3.svg" alt="Lucía" />
+            <div class="contact-info">
+              <strong>Lucía P.</strong>
+              <small>Hermana</small>
+            </div>
+            <button class="contact-send">Notificar</button>
+          </div>
+        </div>
+      </section>
+
+      <section id="map" class="card section-map">
+        <h3>Mapa de ubicación (simulado)</h3>
+        <div class="map-card card">
+          <img src="assets/images/map.svg" alt="Mapa" style="width:100%; border-radius:10px;" />
+        </div>
+      </section>
+
+      <section id="resources" class="card section-resources">
+        <h3>Recursos y guías</h3>
+        <ul class="resources-list">
+          <li><strong>Guía rápida:</strong> Qué hacer si te sientes en peligro.</li>
+          <li><strong>Tutorial:</strong> Cómo configurar contactos de confianza.</li>
+          <li><strong>Consejos:</strong> Prevención y seguridad en espacios públicos.</li>
+        </ul>
+      </section>
+
+      <div id="toast" class="toast" aria-live="polite"></div>
+        <!-- Chatbot Empático Hersos -->
+        <div id="hersosChatbot" class="chatbot-container">
+          <div class="chatbot-header">
+            <span>Chat con Luna</span>
+          </div>
+          <div id="chatbotMessages" class="chatbot-messages">
+            <div class="chatbot-msg bot">¡Hola! Soy Luna, tu asistente de apoyo. ¿Cómo te sientes hoy?</div>
+          </div>
+          <form id="chatbotForm" class="chatbot-form" autocomplete="off">
+            <input id="chatbotInput" type="text" placeholder="Escribe tu mensaje..." required />
+            <button type="submit">Enviar</button>
+          </form>
+        </div>
+      </main>
+
+      <aside class="right-col">
+        <div class="card activity">
+          <h3>Actividad Reciente</h3>
+          <ul>
+            <li><strong>Alerta Activada</strong> — Hace 5 min</li>
+            <li><strong>Contacto 'Pedro'</strong> añadido — Hace 1 hora</li>
+            <li><strong>Chat con Luna</strong> sobre 'Ansiedad' — Hace 3 horas</li>
+          </ul>
+          <a href="#">Ver Detalle</a>
+        </div>
+
+        <div class="card tips">
+          <h4>Consejos Rápidos</h4>
+          <ul>
+            <li>Revisa tus contactos de emergencia.</li>
+            <li>Configura modo discreto para alertas.</li>
+          </ul>
+        </div>
+      </aside>
+
+    </div>
+
+    <nav class="bottom-nav" role="navigation" aria-label="Navegación inferior">
+      <button class="nav-btn" data-nav="home">🏠<span>Home</span></button>
+      <button class="nav-btn" data-nav="contacts">👥<span>Contactos</span></button>
+      <button id="panicBtn" class="nav-btn panic-btn" aria-pressed="false">🔴<span>Alerta</span></button>
+      <button class="nav-btn" data-nav="resources">📚<span>Recursos</span></button>
+      <button class="nav-btn" data-nav="profile">👤<span>Perfil</span></button>
+    </nav>
+
+    <!-- Modal de Pánico -->
+    <div id="panicModal" class="panic-modal" role="dialog" aria-labelledby="panicModalTitle" aria-hidden="true">
+      <div class="panic-modal-content">
+        <div class="panic-modal-header">
+          <div class="panic-alert-icon">⚠️</div>
+          <h2 id="panicModalTitle">Alerta de Emergencia Activada</h2>
+        </div>
+        
+        <div class="panic-modal-body">
+          <div id="panicStatusMessage" class="panic-status-message">
+            Enviando alerta a tus contactos de confianza...
+          </div>
+          
+          <div id="panicProgressBar" class="panic-progress-bar">
+            <div class="panic-progress-fill"></div>
+          </div>
+          
+          <div id="panicDetails" class="panic-details">
+            <div class="panic-detail-item">
+              <span class="detail-icon">📍</span>
+              <span class="detail-label">Ubicación:</span>
+              <span id="panicLocation" class="detail-value">Obteniendo...</span>
+            </div>
+            <div class="panic-detail-item">
+              <span class="detail-icon">🕒</span>
+              <span class="detail-label">Hora:</span>
+              <span id="panicTime" class="detail-value">--:--</span>
+            </div>
+            <div class="panic-detail-item">
+              <span class="detail-icon">📡</span>
+              <span class="detail-label">Estado:</span>
+              <span id="panicConnectionStatus" class="detail-value">Conectado</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="panic-modal-actions">
+          <button id="panicCallPolice" class="panic-action-btn police-btn">
+            📞 Llamar a Policía (105)
+          </button>
+          <button id="panicCallContact" class="panic-action-btn contact-btn">
+            📱 Llamar a Contacto de Confianza
+          </button>
+          <button id="panicCancelBtn" class="panic-action-btn cancel-btn">
+            🚫 Cancelar Alerta
+          </button>
+        </div>
+        
+        <div id="panicCancelForm" class="panic-cancel-form" style="display: none;">
+          <p class="cancel-instruction">Para cancelar, ingresa tu código PIN:</p>
+          <input type="password" id="panicPinInput" maxlength="4" placeholder="••••" />
+          <div class="cancel-form-actions">
+            <button id="panicConfirmCancel" class="btn-confirm-cancel">Confirmar Cancelación</button>
+            <button id="panicBackBtn" class="btn-back">Volver</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="assets/scripts/dashboard.js"></script>
+    <script src="assets/scripts/chatbot.js"></script>
+    <script src="assets/scripts/panic.js"></script>
+  </body>
+</html>

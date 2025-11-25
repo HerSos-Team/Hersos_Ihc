@@ -10,6 +10,10 @@
     />
     <link rel="icon" href="data:," />
     <link rel="stylesheet" href="assets/styles/styles.css" />
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <!-- Local leaflet styles (minimal) -->
+    <link rel="stylesheet" href="assets/styles/leaflet.css" />
   </head>
   <body>
     <a class="skip" href="#contenido">Saltar al contenido</a>
@@ -26,7 +30,9 @@
             <b>HerSOS</b>
           </div>
         </div>
-        <a class="btn" href="#inicio" aria-label="Empezar">Empezar</a>
+        <div class="header-actions">
+          <a class="btn" href="login.html" aria-label="Empezar">Empezar</a>
+        </div>
       </div>
     </header>
 
@@ -182,6 +188,18 @@
         </div>
       </section>
 
+        <!-- MAPA INTERACTIVO (Leaflet) -->
+        <section id="mapa" class="section section-map" aria-label="Mapa interactivo">
+          <div class="container">
+            <div>
+                <span class="badge">Mapa</span>
+                <h2 class="h1">Ubicación</h2>
+                <p class="lead">Mapa interactivo centrado en Lima, Perú. Haz zoom o pulsa el marcador para ver el popup.</p>
+              </div>
+              <div id="mapa-hersos" class="leaflet-map" role="application" aria-label="Mapa de Lima"></div>
+          </div>
+        </section>
+
       
 
       <!-- BANDA FRASE -->
@@ -329,6 +347,13 @@
         <small>© <span id="y">2025</span> HerSOS — Todos los derechos reservados.</small>
       </div>
     </footer>
+
+    <!-- (Autenticación ahora se realiza en /login.html) -->
+
+      <!-- Leaflet JS (CDN) -->
+      <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+      <!-- Init script for the Hersos map -->
+      <script src="assets/scripts/leaflet-init.js"></script>
 
       <script src="assets/scripts/main.js"></script>
   </body>

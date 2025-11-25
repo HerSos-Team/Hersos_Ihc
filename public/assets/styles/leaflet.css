@@ -1,0 +1,12 @@
+/* Minimal styles for the Hersos Leaflet map */
+#mapa-hersos {
+  width: 100%;
+  height: 400px;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  box-shadow: 0 8px 24px rgba(31,18,53,0.06);
+}
+/* Ensure Leaflet container fills the div */
+#mapa-hersos .leaflet-container { width:100%; height:100%; }
+@media (max-width:720px) { #mapa-hersos { height: 320px; } }
