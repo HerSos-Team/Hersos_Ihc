@@ -10,6 +10,11 @@
   // show greeting
   const greetingEl = document.getElementById('userGreeting');
   if (greetingEl) greetingEl.textContent = `Hola, ${stored.name}`;
+  const heroNameEl = document.getElementById('heroName');
+  if (heroNameEl) {
+    const firstName = (stored.name || '').split(' ')[0] || stored.name || 'Usuarioa';
+    heroNameEl.textContent = firstName;
+  }
   // logout button
   const logoutBtn = document.getElementById('logoutBtn');
   if (logoutBtn) logoutBtn.addEventListener('click', () => { localStorage.removeItem('hersos_user'); window.location.href = 'login.html'; });

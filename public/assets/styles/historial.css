@@ -1,0 +1,367 @@
+/* Historial de Alertas Styles */
+.historial-page {
+  background: linear-gradient(180deg, #450062 0%, #6A0DAD 100%);
+  min-height: 100vh;
+  color: #fff;
+}
+
+.historial-page .dash-header {
+  background: rgba(69, 0, 98, 0.95);
+  backdrop-filter: blur(10px);
+}
+
+.back-btn {
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  color: #fff;
+  font-size: 1.5rem;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-right: 12px;
+}
+
+.back-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: scale(1.05);
+}
+
+.historial-container {
+  padding: 20px;
+  padding-bottom: 100px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.page-title {
+  font-family: 'Itim', cursive;
+  font-size: 2rem;
+  margin: 0 0 20px;
+  font-weight: 700;
+}
+
+/* Filter Tabs */
+.filter-tabs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 24px;
+  overflow-x: auto;
+  padding-bottom: 8px;
+}
+
+.filter-tab {
+  background: rgba(255, 255, 255, 0.15);
+  border: 2px solid transparent;
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 20px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+  font-family: 'Itim', cursive;
+}
+
+.filter-tab:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+.filter-tab.active {
+  background: #4CAF50;
+  border-color: #4CAF50;
+  box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+}
+
+/* Stats Grid */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.stat-card {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  padding: 20px;
+  text-align: center;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.stat-icon {
+  font-size: 2rem;
+  margin-bottom: 8px;
+}
+
+.stat-value {
+  font-family: 'Itim', cursive;
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 4px;
+  color: #fff;
+}
+
+.stat-label {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 4px;
+  color: rgba(255, 255, 255, 0.95);
+}
+
+.stat-sublabel {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* Alertas List */
+.alertas-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.alerta-card {
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 20px;
+  box-shadow: 0 6px 20px rgba(69, 0, 98, 0.15);
+  transition: all 0.2s;
+  animation: slideInUp 0.4s ease-out;
+  color: #2c2c2c;
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.alerta-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(69, 0, 98, 0.25);
+}
+
+.alerta-card.activa {
+  border: 3px solid #FF6B6B;
+  background: linear-gradient(135deg, #fff5f5 0%, #ffffff 100%);
+}
+
+.alerta-card.resuelta {
+  border: 2px solid #E8F5E9;
+  background: #ffffff;
+}
+
+.alerta-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.alerta-time {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #450062;
+  font-family: 'Itim', cursive;
+}
+
+.time-icon {
+  font-size: 1.2rem;
+}
+
+.alerta-badge {
+  padding: 6px 16px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.activa-badge {
+  background: linear-gradient(135deg, #FF6B6B 0%, #D81B60 100%);
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(255, 107, 107, 0.3);
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 0.9;
+  }
+}
+
+.resuelta-badge {
+  background: #4CAF50;
+  color: #fff;
+}
+
+/* Alerta Info */
+.alerta-info {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.info-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #2c2c2c;
+  font-size: 0.95rem;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.info-icon {
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+
+/* Responses */
+.alerta-responses {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+.response-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.response-item.responded {
+  background: #E8F5E9;
+  color: #2E7D32;
+  border: 2px solid #4CAF50;
+}
+
+.response-item.pending {
+  background: #FFF3E0;
+  color: #E65100;
+  border: 2px solid #FF9800;
+}
+
+.response-icon {
+  font-size: 1rem;
+}
+
+/* Ver Detalles Button */
+.ver-detalles-btn {
+  width: 100%;
+  background: #450062;
+  color: #fff;
+  border: none;
+  padding: 12px;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.2s;
+  font-family: 'Itim', cursive;
+}
+
+.ver-detalles-btn:hover {
+  background: #6A0DAD;
+  transform: scale(1.02);
+  box-shadow: 0 4px 12px rgba(69, 0, 98, 0.3);
+}
+
+.ver-detalles-btn:active {
+  transform: scale(0.98);
+}
+
+.eye-icon {
+  font-size: 1.2rem;
+}
+
+/* Responsive */
+@media (min-width: 768px) {
+  .historial-container {
+    max-width: 800px;
+    padding: 32px;
+  }
+
+  .page-title {
+    font-size: 2.5rem;
+  }
+
+  .stats-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .alerta-card {
+    padding: 24px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .historial-container {
+    max-width: 1000px;
+  }
+
+  .alertas-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+}
+
+/* Mobile adjustments */
+@media (max-width: 480px) {
+  .historial-container {
+    padding: 16px;
+  }
+
+  .page-title {
+    font-size: 1.6rem;
+  }
+
+  .stat-value {
+    font-size: 2rem;
+  }
+
+  .filter-tab {
+    font-size: 0.85rem;
+    padding: 8px 16px;
+  }
+
+  .alerta-card {
+    padding: 16px;
+  }
+
+  .info-item {
+    font-size: 0.9rem;
+  }
+}

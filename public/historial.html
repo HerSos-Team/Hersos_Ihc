@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Historial de Alertas — HerSOS</title>
+    <link rel="stylesheet" href="assets/styles/styles.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Itim&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/styles/dashboard.css" />
+    <link rel="stylesheet" href="assets/styles/historial.css" />
+  </head>
+  <body class="dashboard-page historial-page">
+    <header class="dash-header">
+      <div class="header-content">
+        <div class="header-left">
+          <button onclick="history.back()" class="back-btn">←</button>
+          <img src="assets/images/logo.herSos.png" alt="HerSOS" class="header-logo" />
+          <span class="header-brand">HerSOS</span>
+        </div>
+        <div class="header-right">
+          <button class="header-icon-btn">🔔</button>
+          <div class="header-user">
+            <div class="user-avatar"><img src="assets/images/perfil.webp" alt="Perfil" /></div>
+            <span class="user-name">María G.</span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div class="historial-container">
+      <!-- Resumen Section -->
+      <section class="resumen-section">
+        <h1 class="page-title">Resumen</h1>
+        
+        <div class="filter-tabs">
+           <button class="filter-tab active" data-filter="todas">Todas <span class="count">(12)</span></button>
+           <button class="filter-tab" data-filter="mes">Este mes <span class="count">(5)</span></button>
+           <button class="filter-tab" data-filter="resueltas">Resueltas <span class="count">(10)</span></button>
+        </div>
+
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-icon">⏱️</div>
+            <div class="stat-value">12</div>
+            <div class="stat-label">Total alertas</div>
+            <div class="stat-sublabel">Tiempo promedio</div>
+          </div>
+          
+          <div class="stat-card">
+            <div class="stat-icon">📊</div>
+            <div class="stat-value">10</div>
+            <div class="stat-label">Resueltas</div>
+            <div class="stat-sublabel">Última alerta</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Alertas List -->
+      <section class="alertas-list">
+        <!-- Alerta Activa -->
+        <article class="alerta-card activa" data-id="alert-001" data-date="2025-01-15T15:47:32">
+          <div class="alerta-header">
+            <div class="alerta-time">
+              <span class="time-icon">🕐</span>
+              <span>Hoy, 15:47:32</span>
+            </div>
+            <span class="alerta-badge activa-badge">Activa</span>
+          </div>
+
+          <div class="alerta-info">
+            <div class="info-item">
+              <span class="info-icon">🚨</span>
+              <span>Botón de Pánico Manual</span>
+            </div>
+            <div class="info-item">
+              <span class="info-icon">📍</span>
+              <span>Av. Insurgentes Sur 456, Roma Norte</span>
+            </div>
+            <div class="info-item">
+              <span class="info-icon">👥</span>
+              <span>3 contactos notificados</span>
+            </div>
+          </div>
+
+          <div class="alerta-responses">
+            <div class="response-item responded">
+              <span class="response-icon">✅</span>
+              <span>2 respondieron</span>
+            </div>
+            <div class="response-item pending">
+              <span class="response-icon">⏳</span>
+              <span>1 sin respuesta</span>
+            </div>
+          </div>
+
+          <button class="ver-detalles-btn">
+            <span class="eye-icon">👁️</span>
+            Ver Detalles
+          </button>
+        </article>
+
+        <!-- Alerta Resuelta -->
+        <article class="alerta-card resuelta" data-id="alert-002" data-date="2025-01-14T10:23:15">
+          <div class="alerta-header">
+            <div class="alerta-time">
+              <span class="time-icon">🕐</span>
+              <span>3 días - 14:22</span>
+            </div>
+            <span class="alerta-badge resuelta-badge">Resuelta</span>
+          </div>
+
+          <div class="alerta-info">
+            <div class="info-item">
+              <span class="info-icon">🚨</span>
+              <span>Botón de Pánico Manual</span>
+            </div>
+            <div class="info-item">
+              <span class="info-icon">📍</span>
+              <span>Resuelta por usuaria</span>
+            </div>
+            <div class="info-item">
+              <span class="info-icon">👥</span>
+              <span>3/3 contactos respondieron</span>
+            </div>
+          </div>
+
+          <div class="alerta-responses">
+            <div class="response-item responded">
+              <span class="response-icon">✅</span>
+              <span>3 respondieron</span>
+            </div>
+          </div>
+
+          <button class="ver-detalles-btn">
+            <span class="eye-icon">👁️</span>
+            Ver Detalles
+          </button>
+        </article>
+
+        <!-- Más Alertas Resueltas -->
+        <article class="alerta-card resuelta" data-id="alert-003" data-date="2025-01-10T08:45:00">
+          <div class="alerta-header">
+            <div class="alerta-time">
+              <span class="time-icon">🕐</span>
+              <span>1 semana - 18:15</span>
+            </div>
+            <span class="alerta-badge resuelta-badge">Resuelta</span>
+          </div>
+
+          <div class="alerta-info">
+            <div class="info-item">
+              <span class="info-icon">🚨</span>
+              <span>Botón de Pánico Automático</span>
+            </div>
+            <div class="info-item">
+              <span class="info-icon">📍</span>
+              <span>Calle Reforma 123, Centro</span>
+            </div>
+            <div class="info-item">
+              <span class="info-icon">👥</span>
+              <span>5 contactos notificados</span>
+            </div>
+          </div>
+
+          <div class="alerta-responses">
+            <div class="response-item responded">
+              <span class="response-icon">✅</span>
+              <span>4 respondieron</span>
+            </div>
+            <div class="response-item pending">
+              <span class="response-icon">⏳</span>
+              <span>1 sin respuesta</span>
+            </div>
+          </div>
+
+          <button class="ver-detalles-btn">
+            <span class="eye-icon">👁️</span>
+            Ver Detalles
+          </button>
+        </article>
+
+        <article class="alerta-card resuelta" data-id="alert-004" data-date="2024-12-28T19:12:30">
+          <div class="alerta-header">
+            <div class="alerta-time">
+              <span class="time-icon">🕐</span>
+              <span>2 semanas - 09:30</span>
+            </div>
+            <span class="alerta-badge resuelta-badge">Resuelta</span>
+          </div>
+
+          <div class="alerta-info">
+            <div class="info-item">
+              <span class="info-icon">🚨</span>
+              <span>Botón de Pánico Manual</span>
+            </div>
+            <div class="info-item">
+              <span class="info-icon">📍</span>
+              <span>Parque México, Condesa</span>
+            </div>
+            <div class="info-item">
+              <span class="info-icon">👥</span>
+              <span>3 contactos notificados</span>
+            </div>
+          </div>
+
+          <div class="alerta-responses">
+            <div class="response-item responded">
+              <span class="response-icon">✅</span>
+              <span>3 respondieron</span>
+            </div>
+          </div>
+
+          <button class="ver-detalles-btn">
+            <span class="eye-icon">👁️</span>
+            Ver Detalles
+          </button>
+        </article>
+      </section>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav" role="navigation">
+      <button class="nav-btn" onclick="location.href='dashboard.html'">🏠<span>Home</span></button>
+      <button class="nav-btn" data-nav="contacts">👥<span>Contactos</span></button>
+      <button class="nav-btn panic-btn">🔴<span>Alerta</span></button>
+      <button class="nav-btn" data-nav="resources">📚<span>Recursos</span></button>
+      <button class="nav-btn" data-nav="profile">👤<span>Perfil</span></button>
+    </nav>
+
+    <script src="assets/scripts/historial.js"></script>
+  </body>
+</html>
