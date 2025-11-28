@@ -9,6 +9,7 @@
       content="Aplicación de respuesta inmediata que protege a mujeres ante acoso o violencia, conectándolas con redes de apoyo y ayuda."
     />
     <link rel="icon" href="data:," />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
     <link rel="stylesheet" href="assets/styles/styles.css" />
   </head>
   <body>
@@ -26,7 +27,9 @@
             <b>HerSOS</b>
           </div>
         </div>
-        <a class="btn" href="#inicio" aria-label="Empezar">Empezar</a>
+        <div class="header-actions">
+          <a class="btn" href="login.html" aria-label="Empezar">Empezar</a>
+        </div>
       </div>
     </header>
 
@@ -37,17 +40,19 @@
         <a href="#problema">Problema</a>
         <a href="#propuesta">Propuesta</a>
         <a href="#funciones">Funciones</a>
-        <a href="#equipo">Equipo</a>
+        <a href="#descarga">Descarga</a>
+        <a href="#faq">FAQ</a>
+        <a href="#contacto">Contacto</a>
       </div>
     </nav>
 
     <main id="contenido">
       <!-- HERO -->
-      <section id="inicio" class="hero" aria-label="Portada">
+      <section id="inicio" class="hero hero--clean" aria-label="Portada">
         <div class="container">
           <div class="shell">
             <div>
-              <h1 class="h1">Tu Seguridad en<br />un Solo Toque</h1>
+              <h1 class="h1 hero-title">Tu Seguridad en<br />un Solo Toque</h1>
               <p class="lead">
                 Una solución integral diseñada para mujeres que buscan sentirse seguras en su día a día. HerSOS ofrece alertas rápidas, conexión con contactos de confianza, guía de recursos y herramientas preventivas, todo pensado para actuar en los momentos más críticos y brindarte tranquilidad en cualquier lugar.
               </p>
@@ -69,14 +74,13 @@
       <section id="mision" class="section mision" aria-label="Misión">
         <div class="container">
           <div class="mision">
-            <span class="badge">Misión</span>
-            <h3 class="h1">Nuestra Misión</h3>
             <div class="mision__inner">
               <div class="mision__text">
+                <h3 class="h1">Nuestra Misión:</h3>
                 <p class="lead">Poner al alcance de las mujeres una herramienta digital sencilla y confiable que les permita pedir ayuda de inmediato en situaciones de riesgo, conectándolas con redes de apoyo y utilizando IA para dar respuestas rápidas y efectivas.</p>
               </div>
               <figure class="mision__image" aria-hidden="true">
-                <img src="assets/images/mision.jpg" alt="Imagen misión" />
+                <img src="assets/images/mision.webp" alt="Mujer utilizando su móvil de forma segura" loading="lazy" />
               </figure>
             </div>
           </div>
@@ -87,9 +91,15 @@
       <section id="vision" class="section vision" aria-label="Visión">
         <div class="container">
           <div class="vision">
-            <span class="badge">Visión</span>
-            <h3 class="h1">Nuestra Visión</h3>
-            <p class="lead">Convertirse en la aplicación de referencia en Latinoamérica en materia de asistencia tecnológica contra la violencia de género, destacando por su impacto positivo en la vida de las mujeres y por su contribución a construir entornos más seguros.</p>
+            <div class="vision__inner">
+              <div class="vision__text">
+                <h3 class="h1">Nuestra Visión:</h3>
+                <p class="lead">Convertirse en la aplicación de referencia en Latinoamérica en materia de asistencia tecnológica contra la violencia de género, destacando por su impacto positivo en la vida de las mujeres y por su contribución a construir entornos más seguros.</p>
+              </div>
+              <figure class="vision__image" aria-hidden="true">
+                <img src="assets/images/vision.foto.webp" alt="Mujer mirando hacia adelante con confianza (Visión)" loading="lazy" />
+              </figure>
+            </div>
           </div>
         </div>
       </section>
@@ -122,67 +132,40 @@
         <div class="container">
           <div class="split">
             <div>
-              <span class="badge">Propuesta</span>
-              <h2 class="h1">Asistencia inmediata<br />y confiable</h2>
-              <p class="lead">
+              <span class="badge" style="margin-bottom:8px;">Propuesta</span>
+              <h2 class="h1" style="max-width:640px;">Asistencia inmediata<br />y confiable</h2>
+              <p class="lead" style="max-width:640px;">
                 Nuestra aplicación brinda ayuda en tiempo real ante acoso o
                 violencia, conectando a las usuarias con redes de apoyo,
                 enviando alertas a contactos de confianza y guardando evidencia
                 de forma segura.
               </p>
-              <div class="hero-ctas">
-                <a class="btn btn-primary" href="#funciones">Descarga ahora</a>
+              <div class="download-badges" style="display: flex; gap: 12px; margin-top: 16px;">
+                <a href="#" class="store-badge" aria-label="Descargar en App Store">
+                  <svg width="135" height="40" viewBox="0 0 135 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="135" height="40" rx="5" fill="#000000"/>
+                    <text x="50" y="13" font-size="9" fill="#FFFFFF" font-family="Arial">Download on the</text>
+                    <text x="50" y="28" font-size="16" fill="#FFFFFF" font-family="Arial" font-weight="600">App Store</text>
+                    <path d="M30 10l-5 8.66h10L30 10z" fill="#FFFFFF"/>
+                    <path d="M25 18.66l-2.5 4.34h15l-2.5-4.34h-10z" fill="#FFFFFF"/>
+                  </svg>
+                </a>
+                <a href="#" class="store-badge" aria-label="Descargar en Google Play">
+                  <svg width="135" height="40" viewBox="0 0 135 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="135" height="40" rx="5" fill="#000000"/>
+                    <text x="50" y="13" font-size="9" fill="#FFFFFF" font-family="Arial">GET IT ON</text>
+                    <text x="50" y="28" font-size="16" fill="#FFFFFF" font-family="Arial" font-weight="600">Google Play</text>
+                    <path d="M15 10v20l15-10-15-10z" fill="#FFFFFF"/>
+                  </svg>
+                </a>
               </div>
             </div>
-            <aside class="device" aria-label="Vista del producto">
-              <div class="screen" role="img" aria-label="Mockup de teléfono">
-                <svg
-                  viewBox="0 0 320 640"
-                  xmlns="http://www.w3.org/2000/svg"
-                  aria-hidden="true"
-                >
-                  <defs>
-                    <linearGradient id="phg2" x1="0" y1="0" x2="1" y2="1">
-                      <stop offset="0" stop-color="#4c1d95" />
-                      <stop offset="1" stop-color="#6d28d9" />
-                    </linearGradient>
-                  </defs>
-                  <rect
-                    x="24"
-                    y="20"
-                    width="272"
-                    height="600"
-                    rx="36"
-                    fill="url(#phg2)"
-                    stroke="#0b0b16"
-                    stroke-width="6"
-                  />
-                  <rect
-                    x="120"
-                    y="34"
-                    width="80"
-                    height="18"
-                    rx="9"
-                    fill="#0b0b16"
-                  />
-                  <text
-                    x="160"
-                    y="330"
-                    font-size="32"
-                    text-anchor="middle"
-                    fill="#ffffff"
-                    font-family="ui-sans-serif,system-ui,Arial"
-                  >
-                    HerSOS
-                  </text>
-                </svg>
-              </div>
+            <aside class="device" aria-label="Vista del producto" style="background: transparent; border: none; box-shadow: none; padding: 0; display:flex; align-items:flex-start; justify-content:center;">
+              <img src="assets/images/mockup.propuesta.png" alt="Mockup de la app HerSOS" loading="lazy" style="width: 100%; max-width: 260px; height: auto; display: block; margin: 0 auto;" />
             </aside>
           </div>
         </div>
       </section>
-
-      
 
       <!-- BANDA FRASE -->
       <div class="band" aria-label="Frase">
@@ -240,12 +223,45 @@
         </div>
       </section>
 
+      <!-- ESTADÍSTICAS E IMPACTO -->
+      <section id="estadisticas" class="section stats-section" aria-label="Impacto y Estadísticas">
+        <div class="container">
+          <div class="stats-intro text-center">
+            <span class="badge">Impacto</span>
+            <h2 class="h1">Nuestros Números Hablan</h2>
+            <p class="lead">Miles de mujeres ya confían en HerSOS para su seguridad</p>
+          </div>
+          <div class="stats-grid">
+            <div class="stat-box">
+              <div class="stat-number">15,000+</div>
+              <div class="stat-label">Usuarias Protegidas</div>
+              <span class="stat-icon material-symbols-rounded">group</span>
+            </div>
+            <div class="stat-box">
+              <div class="stat-number">15seg</div>
+              <div class="stat-label">Tiempo de Respuesta</div>
+              <span class="stat-icon material-symbols-rounded">bolt</span>
+            </div>
+            <div class="stat-box">
+              <div class="stat-number">98%</div>
+              <div class="stat-label">Alertas Respondidas</div>
+              <span class="stat-icon material-symbols-rounded">check_circle</span>
+            </div>
+            <div class="stat-box">
+              <div class="stat-number">24/7</div>
+              <div class="stat-label">Disponibilidad</div>
+              <span class="stat-icon material-symbols-rounded">schedule</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <!-- TESTIMONIOS -->
       <section id="testimonios" class="section section-testimonios" aria-label="Testimonios">
         <div class="container">
           <div class="testimonios__intro">
             <span class="badge">Testimonios</span>
-            <h2 class="h1">Lo que dicen nuestras usuarias</h2>
+            <h2 class="h1 text-white">Lo que dicen nuestras usuarias</h2>
           </div>
           <div class="testimonios__grid">
             <blockquote class="testimonio">
@@ -263,10 +279,12 @@
           </div>
         </div>
       </section>
+
+      <!-- DESCARGA LA APP -->
       <!-- EQUIPO -->
       <section id="equipo" class="section" aria-label="Equipo">
         <div class="container team">
-          <div class="team__intro">
+          <div class="team__intro text-center">
             <span class="badge">Equipo</span>
             <h2 class="h1">Detrás de HerSOS</h2>
             <p class="lead">
@@ -290,6 +308,166 @@
               <h4>Gian Marco Chavez</h4>
               <p>Frontend</p>
             </article>
+          </div>
+        </div>
+      </section>
+
+      
+
+      <!-- PREGUNTAS FRECUENTES -->
+      <section id="faq" class="section faq-section" aria-label="Preguntas Frecuentes">
+        <div class="container">
+          <div class="section-header">
+            <span class="badge">FAQ</span>
+            <h2 class="h1 text-white">Preguntas Frecuentes</h2>
+            <p class="lead">Resolvemos tus dudas sobre HerSOS</p>
+          </div>
+          
+          <div class="faq-list">
+            <details class="faq-item">
+              <summary class="faq-question">
+                <span>¿Cómo funciona el botón de pánico?</span>
+                <span class="faq-icon">+</span>
+              </summary>
+              <div class="faq-answer">
+                <p>Al presionar el botón de pánico, la aplicación envía inmediatamente tu ubicación GPS en tiempo real a tus contactos de confianza previamente configurados. También se activa un sistema de alertas que puede notificar a las autoridades locales si así lo configuraste.</p>
+              </div>
+            </details>
+
+            <details class="faq-item">
+              <summary class="faq-question">
+                <span>¿Necesito conexión a internet para usar HerSOS?</span>
+                <span class="faq-icon">+</span>
+              </summary>
+              <div class="faq-answer">
+                <p>HerSOS funciona con o sin conexión a internet. Si no hay conexión, las alertas se guardan en cola y se envían automáticamente cuando la conexión se restablece. Algunas funciones básicas como el botón de pánico funcionan incluso sin conexión.</p>
+              </div>
+            </details>
+
+            <details class="faq-item">
+              <summary class="faq-question">
+                <span>¿Mis datos personales están seguros?</span>
+                <span class="faq-icon">+</span>
+              </summary>
+              <div class="faq-answer">
+                <p>Sí, absolutamente. Utilizamos encriptación de extremo a extremo para proteger toda tu información personal. Tus datos de ubicación solo se comparten cuando activas una alerta y únicamente con las personas que tú hayas autorizado previamente.</p>
+              </div>
+            </details>
+
+            <details class="faq-item">
+              <summary class="faq-question">
+                <span>¿Puedo usar HerSOS en cualquier país?</span>
+                <span class="faq-icon">+</span>
+              </summary>
+              <div class="faq-answer">
+                <p>HerSOS está disponible en toda Latinoamérica y próximamente en más países. Los números de emergencia se adaptan automáticamente según tu ubicación geográfica para conectarte con las autoridades locales correspondientes.</p>
+              </div>
+            </details>
+
+            <details class="faq-item">
+              <summary class="faq-question">
+                <span>¿Cómo agrego contactos de confianza?</span>
+                <span class="faq-icon">+</span>
+              </summary>
+              <div class="faq-answer">
+                <p>En la sección "Mis Contactos" del dashboard, puedes agregar hasta 5 contactos de confianza. Solo necesitas su nombre y número de teléfono. Ellos recibirán una notificación de que han sido agregados como contacto de emergencia.</p>
+              </div>
+            </details>
+
+            <details class="faq-item">
+              <summary class="faq-question">
+                <span>¿HerSOS tiene algún costo?</span>
+                <span class="faq-icon">+</span>
+              </summary>
+              <div class="faq-answer">
+                <p>La versión básica de HerSOS es completamente gratuita e incluye todas las funciones esenciales de seguridad. Ofrecemos una versión premium opcional con características adicionales como seguimiento en tiempo real 24/7 y almacenamiento extendido de historial.</p>
+              </div>
+            </details>
+
+            <details class="faq-item">
+              <summary class="faq-question">
+                <span>¿Qué hago si activo la alerta por error?</span>
+                <span class="faq-icon">+</span>
+              </summary>
+              <div class="faq-answer">
+                <p>Puedes cancelar una alerta activa ingresando tu PIN de seguridad dentro de la aplicación. Tus contactos recibirán una notificación de que la alerta fue cancelada. Es importante usar esta función solo cuando realmente estés segura.</p>
+              </div>
+            </details>
+
+            <details class="faq-item">
+              <summary class="faq-question">
+                <span>¿Luna Chat IA es gratuita?</span>
+                <span class="faq-icon">+</span>
+              </summary>
+              <div class="faq-answer">
+                <p>Sí, Luna Chat IA está disponible gratuitamente para todas las usuarias. Luna está diseñada para brindarte apoyo emocional, información sobre recursos y orientación en situaciones difíciles, disponible las 24 horas del día.</p>
+              </div>
+            </details>
+          </div>
+        </div>
+      </section>
+
+      <!-- FORMULARIO DE CONTACTO -->
+      <section id="contacto" class="section contact-section" aria-label="Contacto">
+        <div class="container">
+          <div class="contact-content">
+            <div class="contact-info">
+              <span class="badge">Contáctanos</span>
+              <h2 class="h1">¿Tienes preguntas?<br />Estamos aquí</h2>
+              <p class="lead">
+                Nuestro equipo está disponible para ayudarte con cualquier consulta sobre HerSOS.
+              </p>
+              <div class="contact-details">
+                <div class="contact-item">
+                  <span class="contact-icon material-symbols-rounded">mail</span>
+                  <div>
+                    <strong>Email</strong>
+                    <p><a href="mailto:soporte@hersos.app">soporte@hersos.app</a></p>
+                  </div>
+                </div>
+                <div class="contact-item">
+                  <span class="contact-icon material-symbols-rounded">call</span>
+                  <div>
+                    <strong>Teléfono</strong>
+                    <p><a href="tel:+51123456789">+51 123 456 789</a></p>
+                  </div>
+                </div>
+                <div class="contact-item">
+                  <span class="contact-icon material-symbols-rounded">schedule</span>
+                  <div>
+                    <strong>Horario</strong>
+                    <p>Lun - Vie: 9:00 AM - 6:00 PM</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <form class="contact-form" id="contactForm">
+              <div class="form-group">
+                <label for="nombre">Nombre completo</label>
+                <input type="text" id="nombre" name="nombre" required placeholder="Tu nombre" />
+              </div>
+              <div class="form-group">
+                <label for="email">Correo electrónico</label>
+                <input type="email" id="email" name="email" required placeholder="tu@email.com" />
+              </div>
+              <div class="form-group">
+                <label for="asunto">Asunto</label>
+                <select id="asunto" name="asunto" required>
+                  <option value="">Selecciona un tema</option>
+                  <option value="consulta">Consulta general</option>
+                  <option value="soporte">Soporte técnico</option>
+                  <option value="sugerencia">Sugerencia</option>
+                  <option value="alianza">Alianzas y colaboraciones</option>
+                  <option value="prensa">Prensa y medios</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="mensaje">Mensaje</label>
+                <textarea id="mensaje" name="mensaje" rows="5" required placeholder="Escribe tu mensaje aquí..."></textarea>
+              </div>
+              <button type="submit" class="btn btn-primary">Enviar Mensaje</button>
+              <p class="form-privacy">Al enviar, aceptas nuestra <a href="#">Política de Privacidad</a></p>
+            </form>
           </div>
         </div>
       </section>
@@ -330,7 +508,66 @@
       </div>
     </footer>
 
+    <!-- (Autenticación ahora se realiza en /login.html) -->
       <script src="assets/scripts/main.js"></script>
+      <script>
+        // Manejo del formulario de contacto
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+          e.preventDefault();
+          
+          // Obtener datos del formulario
+          const nombre = document.getElementById('nombre').value;
+          const email = document.getElementById('email').value;
+          const asunto = document.getElementById('asunto').value;
+          const mensaje = document.getElementById('mensaje').value;
+          
+          // Crear modal de éxito
+          const modal = document.createElement('div');
+          modal.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);display:flex;align-items:center;justify-content:center;z-index:10000;animation:fadeIn 0.3s ease;';
+          
+          modal.innerHTML = `
+            <div style="background:#fff;padding:40px;border-radius:16px;max-width:500px;text-align:center;box-shadow:0 10px 40px rgba(0,0,0,0.3);animation:slideUp 0.3s ease;">
+              <div style="font-size:4rem;margin-bottom:20px;">✅</div>
+              <h2 style="color:#450062;font-family:'Itim',cursive;font-size:1.8rem;margin:0 0 12px;">¡Mensaje Enviado!</h2>
+              <p style="color:#666;margin:0 0 24px;line-height:1.6;">
+                Gracias <strong>${nombre}</strong>, hemos recibido tu mensaje. Nuestro equipo te responderá a <strong>${email}</strong> en las próximas 24-48 horas.
+              </p>
+              <button onclick="this.closest('div[style*=fixed]').remove()" style="background:#450062;color:#fff;border:none;padding:12px 32px;border-radius:8px;font-size:1rem;font-weight:600;cursor:pointer;font-family:'Itim',cursive;">
+                Cerrar
+              </button>
+            </div>
+          `;
+          
+          document.body.appendChild(modal);
+          
+          // Cerrar modal al hacer clic en el fondo
+          modal.addEventListener('click', function(e) {
+            if (e.target === modal) {
+              modal.remove();
+            }
+          });
+          
+          // Limpiar formulario
+          this.reset();
+          
+          // Remover modal automáticamente después de 5 segundos
+          setTimeout(() => {
+            if (modal.parentNode) {
+              modal.remove();
+            }
+          }, 5000);
+        });
+      </script>
+      <style>
+        @keyframes fadeIn {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
+        @keyframes slideUp {
+          from { transform: translateY(50px); opacity: 0; }
+          to { transform: translateY(0); opacity: 1; }
+        }
+      </style>
   </body>
 </html>
 

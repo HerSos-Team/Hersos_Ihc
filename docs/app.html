@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>HerSOS — Simulador App</title>
+    <link rel="stylesheet" href="styles/styles.css" />
+    <link rel="stylesheet" href="styles/app.css" />
+  </head>
+  <body>
+    <header class="header app-header">
+      <div class="container">
+        <div class="brand">
+          <img src="images/logo.herSos.png" alt="HerSOS" class="brand__logo" />
+          <div class="brand__text"><b>HerSOS</b></div>
+        </div>
+        <nav class="app-nav">
+          <a href="#panic">Botón</a>
+          <a href="#contacts">Contactos</a>
+          <a href="#map">Mapa</a>
+          <a href="#resources">Recursos</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="container app-main">
+      <section id="hero" class="hero small-hero">
+        <h1 class="h1">Tu seguridad en un solo toque</h1>
+        <p class="lead">Una simulación de la app HerSOS: prueba el botón de pánico, revisa contactos de confianza y ve la ubicación simulada.</p>
+      </section>
+
+      <section id="panic" class="section section-panic">
+        <h2>Botón de Pánico</h2>
+        <p class="lead">Presiona el botón para simular una alerta. Se mostrará un indicador y un mensaje de envío de ayuda.</p>
+        <div class="panic-wrap">
+          <button id="panicBtn" class="panic-btn" aria-pressed="false">¡ALERTA!</button>
+          <div id="panicStatus" class="panic-status" aria-live="polite">Estado: inactivo</div>
+        </div>
+      </section>
+
+      <section id="contacts" class="section section-contacts">
+        <h2>Contactos de confianza</h2>
+        <p class="lead">Contactos a quienes se puede enviar la alerta.</p>
+        <div class="contacts-grid" id="contactsGrid">
+          <div class="contact card" data-phone="+5112340001">
+            <img src="images/contact1.svg" alt="Ana" />
+            <div class="contact-info">
+              <strong>Ana López</strong>
+              <small>Madre</small>
+            </div>
+            <button class="contact-send">Notificar</button>
+          </div>
+          <div class="contact card" data-phone="+5112340002">
+            <img src="images/contact2.svg" alt="María" />
+            <div class="contact-info">
+              <strong>María Ruiz</strong>
+              <small>Amiga</small>
+            </div>
+            <button class="contact-send">Notificar</button>
+          </div>
+          <div class="contact card" data-phone="+5112340003">
+            <img src="images/contact3.svg" alt="Lucía" />
+            <div class="contact-info">
+              <strong>Lucía P.</strong>
+              <small>Hermana</small>
+            </div>
+            <button class="contact-send">Notificar</button>
+          </div>
+        </div>
+      </section>
+
+      <section id="map" class="section section-map">
+        <h2>Mapa de ubicación (simulado)</h2>
+        <p class="lead">La ubicación se muestra como una imagen estática para esta simulación.</p>
+        <div class="map-card card">
+          <img src="images/map.svg" alt="Mapa" />
+        </div>
+      </section>
+
+      <section id="resources" class="section section-resources">
+        <h2>Recursos y guías</h2>
+        <ul class="resources-list">
+          <li><strong>Guía rápida:</strong> Qué hacer si te sientes en peligro.</li>
+          <li><strong>Tutorial:</strong> Cómo configurar contactos de confianza.</li>
+          <li><strong>Consejos:</strong> Prevención y seguridad en espacios públicos.</li>
+        </ul>
+      </section>
+    </main>
+
+    <div id="toast" class="toast" aria-live="polite"></div>
+
+    <script src="scripts/app.js"></script>
+  </body>
+</html>

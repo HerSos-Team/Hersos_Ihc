@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Historial de Alertas — HerSOS</title>
+    <link rel="stylesheet" href="assets/styles/styles.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Itim&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+    <link rel="stylesheet" href="assets/styles/dashboard.css" />
+    <link rel="stylesheet" href="assets/styles/historial.css" />
+  </head>
+  <body class="dashboard-page historial-page">
+    <header class="dash-header">
+      <div class="header-content">
+        <div class="header-left">
+          <button onclick="history.back()" class="back-btn">←</button>
+          <img src="assets/images/logo.herSos.png" alt="HerSOS" class="header-logo" />
+          <span class="header-brand">HerSOS</span>
+        </div>
+        <div class="header-right">
+          <button class="header-icon-btn"><span class="material-symbols-rounded">notifications</span></button>
+          <div class="header-user">
+            <div class="user-avatar"><img src="assets/images/perfil.webp" alt="Perfil" /></div>
+            <span class="user-name" id="userGreeting">Usuario</span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div class="app-grid">
+      <aside class="sidebar card">
+        <nav class="side-nav">
+          <button class="side-item" onclick="location.href='dashboard.html'">Dashboard</button>
+          <button class="side-item" onclick="location.href='contacts.html'">Mis Contactos</button>
+          <button class="side-item active" onclick="location.href='historial.html'">Historial de Alertas</button>
+          <button class="side-item" onclick="location.href='dashboard.html#panic'">Botón de Pánico</button>
+          <button class="side-item" onclick="location.href='chat.html'">Luna Chat IA</button>
+          <button class="side-item" onclick="location.href='resources.html'">Recursos Educativos</button>
+          <button class="side-item" onclick="location.href='profile.html'">Mi Perfil</button>
+          <button class="side-item" onclick="location.href='settings.html'">Configuración</button>
+        </nav>
+      </aside>
+
+      <main class="dash-main">
+        <section class="card historial-header">
+          <div class="historial-header-top">
+            <div>
+              <h1 class="page-title">Historial de Alertas</h1>
+              <p class="page-subtitle">Registro completo de tus incidentes y acciones de seguridad</p>
+            </div>
+          </div>
+
+          <div class="filter-tabs">
+            <button class="filter-tab active" data-filter="todas">Todas <span class="count">(12)</span></button>
+            <button class="filter-tab" data-filter="mes">Este mes <span class="count">(8)</span></button>
+            <button class="filter-tab" data-filter="resueltas">Resueltas <span class="count">(10)</span></button>
+            <button class="filter-tab" data-filter="activas">Activas <span class="count">(2)</span></button>
+            <button class="filter-tab" data-filter="sin-respuesta">Sin respuesta <span class="count">(3)</span></button>
+          </div>
+        </section>
+
+        <section class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-icon"><span class="material-symbols-rounded">notifications</span></div>
+            <div class="stat-value">12</div>
+            <div class="stat-label">Total Alertas</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon"><span class="material-symbols-rounded">check_circle</span></div>
+            <div class="stat-value">10</div>
+            <div class="stat-label">Resueltas Exitosamente</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon"><span class="material-symbols-rounded">timer</span></div>
+            <div class="stat-value">2:30</div>
+            <div class="stat-label">Tiempo Promedio</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon"><span class="material-symbols-rounded">event</span></div>
+            <div class="stat-value">Hace 3 días</div>
+            <div class="stat-label">Última Alerta</div>
+          </div>
+        </section>
+
+        <!-- Alertas List -->
+        <section class="alertas-list">
+        <!-- Alerta Resuelta 1 (prueba) -->
+        <article class="alerta-card resuelta" data-id="alert-301" data-date="2025-11-18T08:15:00">
+          <div class="alerta-header">
+            <div class="alerta-time">
+              <span class="time-icon material-symbols-rounded">schedule</span>
+              <span>18 Nov 2025 - 08:15</span>
+            </div>
+            <span class="alerta-badge resuelta-badge">Resuelta</span>
+          </div>
+          <div class="alerta-info">
+            <div class="info-item">
+              <span class="info-icon material-symbols-rounded">emergency</span>
+              <span>Botón de Pánico Manual (alerta de prueba)</span>
+            </div>
+            <div class="info-item">
+              <span class="info-icon material-symbols-rounded">location_on</span>
+              <span>Av. La Marina 1500, Pueblo Libre, Lima</span>
+            </div>
+            <div class="info-item">
+              <span class="info-icon material-symbols-rounded">group</span>
+              <span>2 contactos notificados</span>
+            </div>
+          </div>
+          <div class="alerta-responses">
+            <div class="response-item responded">
+              <span class="response-icon material-symbols-rounded">check_circle</span>
+              <span>2 respondieron</span>
+            </div>
+          </div>
+          <button class="ver-detalles-btn">
+            <span class="eye-icon material-symbols-rounded">visibility</span>
+            Ver Detalles
+          </button>
+        </article>
+
+        <!-- Alerta Resuelta 2 -->
+        <article class="alerta-card resuelta" data-id="alert-302" data-date="2025-10-30T19:30:00">
+          <div class="alerta-header">
+            <div class="alerta-time">
+              <span class="time-icon material-symbols-rounded">schedule</span>
+              <span>30 Oct 2025 - 19:30</span>
+            </div>
+            <span class="alerta-badge resuelta-badge">Resuelta</span>
+          </div>
+          <div class="alerta-info">
+            <div class="info-item">
+              <span class="info-icon material-symbols-rounded">emergency</span>
+              <span>Botón de Pánico Manual</span>
+            </div>
+            <div class="info-item">
+              <span class="info-icon material-symbols-rounded">location_on</span>
+              <span>Av. Universitaria 200, San Miguel, Lima</span>
+            </div>
+            <div class="info-item">
+              <span class="info-icon material-symbols-rounded">group</span>
+              <span>3 contactos notificados</span>
+            </div>
+          </div>
+          <div class="alerta-responses">
+            <div class="response-item responded">
+              <span class="response-icon material-symbols-rounded">check_circle</span>
+              <span>3 respondieron</span>
+            </div>
+          </div>
+          <button class="ver-detalles-btn">
+            <span class="eye-icon material-symbols-rounded">visibility</span>
+            Ver Detalles
+          </button>
+        </article>
+        </section>
+      </main>
+
+      <aside class="right-col">
+        <div class="card quick-actions">
+          <h4>Acciones Rápidas</h4>
+          <div class="actions-list">
+            <button class="action-btn" id="downloadHistoryBtn">📥 Descargar Historial</button>
+            <button class="action-btn">📈 Ver Estadísticas Detalladas</button>
+            <button class="action-btn">🖨️ Imprimir Reporte</button>
+          </div>
+        </div>
+
+        <div class="card tips">
+          <h4>Ayuda y Consejos</h4>
+          <ul>
+            <li>Activa el seguimiento GPS durante una alerta.</li>
+            <li>Revisa y actualiza tus contactos cada mes.</li>
+          </ul>
+        </div>
+      </aside>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav" role="navigation">
+      <button class="nav-btn" onclick="location.href='dashboard.html'"><span>Home</span></button>
+      <button class="nav-btn" onclick="location.href='historial.html'"><span>Historial</span></button>
+      <button class="nav-btn panic-btn" onclick="location.href='dashboard.html#panic'"><span>Botón de Pánico</span></button>
+      <button class="nav-btn" onclick="location.href='profile.html'"><span>Perfil</span></button>
+    </nav>
+
+    <script src="assets/scripts/historial.js"></script>
+    <script>
+      // Cargar nombre dinámico en la cabecera del historial
+      (function() {
+        try {
+          const rawUser = localStorage.getItem('hersos_user') || localStorage.getItem('hersos_session');
+          let displayName = '';
+          if (rawUser) {
+            const data = JSON.parse(rawUser);
+            displayName = data?.name || data?.nombre || data?.username || data?.usuario || '';
+          }
+          if (!displayName) {
+            const params = new URLSearchParams(window.location.search);
+            displayName = params.get('name') || '';
+          }
+          const headerNameEl = document.getElementById('userGreeting');
+          if (headerNameEl && displayName) headerNameEl.textContent = displayName;
+        } catch (e) {
+          // Silencioso en caso de datos corruptos
+        }
+      })();
+    </script>
+  </body>
+</html>
