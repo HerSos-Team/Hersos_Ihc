@@ -7,6 +7,8 @@
     <link rel="stylesheet" href="assets/styles/styles.css" />
     <!-- Tipografía Itim para títulos y texto empático -->
     <link href="https://fonts.googleapis.com/css2?family=Itim&display=swap" rel="stylesheet">
+    <!-- Material Symbols Rounded -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
     <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <link rel="stylesheet" href="assets/styles/dashboard.css" />
@@ -21,12 +23,12 @@
         </div>
         <div class="header-center">
           <div class="search-box">
-            <span class="search-icon">🔍</span>
+            <span class="search-icon material-symbols-rounded">search</span>
             <input type="text" placeholder="Buscar..." />
           </div>
         </div>
         <div class="header-right">
-          <button class="header-icon-btn">🔔</button>
+          <button class="header-icon-btn"><span class="material-symbols-rounded">notifications</span></button>
           <div class="header-user">
               <div class="user-avatar"><img src="assets/images/perfil.webp" alt="Perfil" /></div>
               <span class="user-name" id="userGreeting">María G.</span>
@@ -38,14 +40,15 @@
     <div class="app-grid">
       <aside class="sidebar card">
         <nav class="side-nav">
-          <button class="side-item" data-nav="home">🏠  Dashboard</button>
-          <button class="side-item" data-nav="contacts">👥  Mis Contactos</button>
-          <button class="side-item" onclick="location.href='historial.html'">🕒  Historial de Alertas</button>
-          <button class="side-item" data-nav="chat">🤖  Luna Chat IA</button>
-          <button class="side-item" data-nav="resources">📚  Recursos Educativos</button>
-          <button class="side-item" data-nav="profile">👤  Mi Perfil</button>
-          <button class="side-item" data-nav="settings">⚙️  Configuración</button>
-          <button class="side-item logout-btn" onclick="cerrarSesion()">🚪  Cerrar Sesión</button>
+          <button class="side-item" onclick="location.href='dashboard.html'">Dashboard</button>
+          <button class="side-item" data-nav="contacts">Mis Contactos</button>
+          <button class="side-item" onclick="location.href='historial.html'">Historial de Alertas</button>
+          <button class="side-item" id="openPanicFromSidebar">Botón de Pánico</button>
+          <button class="side-item" data-nav="chat">Luna Chat IA</button>
+          <button class="side-item" data-nav="resources">Recursos Educativos</button>
+          <button class="side-item" onclick="location.href='profile.html'">Mi Perfil</button>
+          <button class="side-item" data-nav="settings">Configuración</button>
+          <button class="side-item logout-btn" onclick="cerrarSesion()">Cerrar Sesión</button>
         </nav>
         <div class="system-status card">
           <h4>Estado del Sistema</h4>
@@ -63,33 +66,35 @@
           <h1 class="hero-title">¡Hola, <span id="heroName">María</span>!</h1>
           <p class="hero-subtitle">Tu seguridad es nuestra prioridad.</p>
         </div>
-        <div class="hero-emoji">😊</div>
+        <div class="hero-emoji" style="display:flex;justify-content:center;align-items:center;">
+          <img src="assets/images/perfil.webp" alt="Perfil" style="width:90px;height:90px;border-radius:24px;object-fit:cover;box-shadow:0 4px 16px rgba(128,39,155,0.10);" />
+        </div>
       </section>
 
       <section class="quick-grid-main">
         <button class="quick-card panic-card" data-action="panic" id="quickPanic">
-          <div class="quick-icon-large">⚠️</div>
+          <div class="quick-icon-large"><span class="material-symbols-rounded">warning</span></div>
           <div class="quick-content">
             <h3 class="quick-title-large">Botón de Pánico</h3>
             <p class="quick-subtitle">Presiona para activar</p>
           </div>
         </button>
         <button class="quick-card chat-card" data-action="chat" id="quickChat">
-          <div class="quick-icon-large">🤖</div>
+          <div class="quick-icon-large"><span class="material-symbols-rounded">smart_toy</span></div>
           <div class="quick-content">
             <h3 class="quick-title-large">Chat con Luna</h3>
             <p class="quick-subtitle">Habla ahora</p>
           </div>
         </button>
         <button class="quick-card contacts-card" data-action="contacts" id="quickContacts">
-          <div class="quick-icon-large">👥</div>
+          <div class="quick-icon-large"><span class="material-symbols-rounded">group</span></div>
           <div class="quick-content">
             <h3 class="quick-title-large">Mis Contactos</h3>
             <p class="quick-subtitle">Gestiona tu red</p>
           </div>
         </button>
         <button class="quick-card history-card" data-action="history" id="quickHistory" onclick="location.href='historial.html'">
-          <div class="quick-icon-large">🕒</div>
+          <div class="quick-icon-large"><span class="material-symbols-rounded">history</span></div>
           <div class="quick-content">
             <h3 class="quick-title-large">Historial de Alertas</h3>
             <p class="quick-subtitle">Ver registros</p>
@@ -104,28 +109,22 @@
           <div class="summary-item card">
             <div class="summary-number">3/5</div>
             <p class="summary-label">Contactos Activos</p>
-            <div class="summary-icon">👥</div>
+            <div class="summary-icon"><span class="material-symbols-rounded">group</span></div>
           </div>
           <div class="summary-item card">
             <div class="summary-number">2</div>
             <p class="summary-label">Alertas Este Mes</p>
-            <div class="summary-icon">🔔</div>
+            <div class="summary-icon"><span class="material-symbols-rounded">notifications</span></div>
           </div>
           <div class="summary-item card">
             <div class="summary-number">Hace 3 días</div>
             <p class="summary-label">Última Alerta</p>
-            <div class="summary-icon">📅</div>
+            <div class="summary-icon"><span class="material-symbols-rounded">event</span></div>
           </div>
         </div>
       </section>
       
       <!-- Secciones web informativas removidas: hero, pánico y contactos -->
-
-      <section id="map" class="card section-map">
-        <h3>Tu Ubicación en Tiempo Real</h3>
-        <p class="lead" style="color:#6b6b6b; margin-bottom: 16px;">Mapa interactivo que muestra tu posición actual. Se actualiza automáticamente al activar el botón de pánico.</p>
-        <div id="dashboard-map" class="leaflet-map" role="application" aria-label="Mapa de ubicación"></div>
-      </section>
 
       <!-- Sección de Recursos removida (se mantiene el acceso por botones) -->
 
@@ -155,67 +154,227 @@
     </div>
 
     <nav class="bottom-nav" role="navigation" aria-label="Navegación inferior">
-      <button class="nav-btn" data-nav="home">🏠<span>Home</span></button>
-      <button class="nav-btn" data-nav="contacts">👥<span>Contactos</span></button>
-      <button id="panicBtn" class="nav-btn panic-btn" aria-pressed="false">🔴<span>Alerta</span></button>
-      <button class="nav-btn" data-nav="resources">📚<span>Recursos</span></button>
-      <button class="nav-btn" data-nav="profile">👤<span>Perfil</span></button>
+      <button class="nav-btn" onclick="location.href='dashboard.html'"><span>Home</span></button>
+      <button class="nav-btn" onclick="location.href='historial.html'"><span>Historial</span></button>
+      <button id="panicBtn" class="nav-btn panic-btn" aria-pressed="false"><span>Botón de Pánico</span></button>
+      <button class="nav-btn" onclick="location.href='profile.html'"><span>Perfil</span></button>
     </nav>
 
-    <!-- Modal de Pánico -->
-    <div id="panicModal" class="panic-modal" role="dialog" aria-labelledby="panicModalTitle" aria-hidden="true">
-      <div class="panic-modal-content">
-        <div class="panic-modal-header">
-          <div class="panic-alert-icon">⚠️</div>
-          <h2 id="panicModalTitle">Alerta de Emergencia Activada</h2>
-        </div>
-        
-        <div class="panic-modal-body">
-          <div id="panicStatusMessage" class="panic-status-message">
-            Enviando alerta a tus contactos de confianza...
-          </div>
+    <!-- Modal de Pánico: Fase 1 - Activación -->
+    <div id="panicModal" class="panic-modal-fullscreen" role="dialog" aria-labelledby="panicModalTitle" aria-hidden="true">
+      <div class="panic-modal-wrapper">
+        <div class="panic-hero-section">
+          <div class="panic-hand-icon">✋</div>
+          <h1 class="panic-title">Botón de Pánico</h1>
+          <p class="panic-description">Mantén presionado 3 segundos para activar una alerta de emergencia. Tu ubicación y contactos serán notificados instantáneamente.</p>
           
-          <div id="panicProgressBar" class="panic-progress-bar">
-            <div class="panic-progress-fill"></div>
+          <div class="panic-button-container">
+            <button id="panicMainButton" class="panic-main-btn" aria-label="Mantén presionado para activar">
+              <div class="panic-btn-icon">✋</div>
+            </button>
+            <div id="panicTimer" class="panic-timer" style="display:none;">3</div>
+            <div id="panicStatusText" class="panic-status-text">Alerta: Ctrl + Shift + P</div>
           </div>
-          
-          <div id="panicDetails" class="panic-details">
-            <div class="panic-detail-item">
-              <span class="detail-icon">📍</span>
-              <span class="detail-label">Ubicación:</span>
-              <span id="panicLocation" class="detail-value">Obteniendo...</span>
+
+          <div class="panic-quick-actions">
+            <button class="panic-quick-btn" id="quickGps">
+              <span class="quick-btn-icon material-symbols-rounded">location_on</span>
+              <span class="quick-btn-label">GPS Activo</span>
+            </button>
+            <button class="panic-quick-btn" id="quickContacts">
+              <span class="quick-btn-icon material-symbols-rounded">group</span>
+              <span class="quick-btn-label">3 Contactos Principales</span>
+            </button>
+            <button class="panic-quick-btn" id="quickConnected">
+              <span class="quick-btn-icon">🔗</span>
+              <span class="quick-btn-label">Conectado</span>
+            </button>
+          </div>
+        </div>
+
+        <aside class="panic-sidebar">
+          <div class="panic-sidebar-section">
+            <h3 class="sidebar-title">👥 Contactos Principales</h3>
+            <div class="contact-list">
+              <div class="contact-item">
+                <div class="contact-avatar" style="background:#9C27B0">M</div>
+                <div class="contact-info">
+                  <div class="contact-name">María González</div>
+                  <div class="contact-status">● Disponible</div>
+                </div>
+              </div>
+              <div class="contact-item">
+                <div class="contact-avatar" style="background:#673AB7">L</div>
+                <div class="contact-info">
+                  <div class="contact-name">Laura Méndez</div>
+                  <div class="contact-status">● Disponible</div>
+                </div>
+              </div>
+              <div class="contact-item">
+                <div class="contact-avatar" style="background:#3F51B5">A</div>
+                <div class="contact-info">
+                  <div class="contact-name">Ana Torres</div>
+                  <div class="contact-status">● Disponible</div>
+                </div>
+              </div>
             </div>
-            <div class="panic-detail-item">
-              <span class="detail-icon">🕒</span>
-              <span class="detail-label">Hora:</span>
-              <span id="panicTime" class="detail-value">--:--</span>
+          </div>
+
+          <div class="panic-sidebar-section">
+            <h3 class="sidebar-title">🛡️ Consejo de Seguridad</h3>
+            <div class="security-tip">
+              <p>💡 <strong>Presiona el botón de pánico</strong> solo si sientes que estás en emergencia real. Puedes cancelar en los primeros 3 segundos.</p>
             </div>
-            <div class="panic-detail-item">
-              <span class="detail-icon">📡</span>
-              <span class="detail-label">Estado:</span>
-              <span id="panicConnectionStatus" class="detail-value">Conectado</span>
+          </div>
+        </aside>
+
+        <button id="closePanicModal" class="panic-close-btn" aria-label="Cerrar">✕</button>
+      </div>
+    </div>
+
+    <!-- Modal de Alerta Activa: Fase 2 - Después de activar -->
+    <div id="alertActiveModal" class="alert-active-modal" role="dialog" aria-hidden="true" style="display:none;">
+      <div class="alert-active-header">
+        <div class="alert-active-status">
+          <div class="alert-bell-icon"><span class="material-symbols-rounded">notifications_active</span></div>
+          <div class="alert-status-info">
+            <h1 class="alert-title">ALERTA ACTIVA</h1>
+            <div class="alert-time" id="alertActiveTime">15:47:32</div>
+            <div class="alert-duration" id="alertDuration">Activa hace: 2 min 15 seg</div>
+          </div>
+        </div>
+        <div class="alert-header-actions">
+          <button id="cancelAlertBtn" class="alert-cancel-btn">Cancelar Alerta</button>
+          <button id="call911Btn" class="alert-call-btn">📞 Llamar 911</button>
+        </div>
+      </div>
+
+      <div class="alert-active-body">
+        <div class="alert-main-section">
+          <div class="alert-location-card">
+            <div class="location-header">
+              <h3><span class="material-symbols-rounded">location_on</span> Tu Ubicación Actual</h3>
+              <div class="gps-status">
+                <span class="gps-indicator">●</span> GPS Preciso: 48 metros
+              </div>
+            </div>
+            <div class="location-address" id="alertAddress">
+              Av. Insurgentes Sur 458<br>
+              Roma Norte, Ciudad de México, 06700<br>
+              <span class="location-coords">19.4326° N, 99.1332° W</span>
+            </div>
+            <div id="alertMap" class="alert-map"></div>
+          </div>
+
+          <div class="alert-contacts-card">
+            <h3>Contactos Notificados (3)</h3>
+            <div class="notified-contacts-list">
+              <div class="notified-contact">
+                <div class="contact-avatar-lg" style="background: linear-gradient(135deg, #E91E63, #C2185B)">M</div>
+                <div class="notified-contact-info">
+                  <div class="notified-contact-name">María González</div>
+                  <div class="notified-contact-relation">Hermana • Contacto #1</div>
+                  <div class="notified-contact-status">
+                    <span class="status-badge status-responded">✓ SMS Enviado</span>
+                    <span class="status-badge status-read">📱 Leído</span>
+                    <span class="status-badge status-call">📞 Llamó</span>
+                  </div>
+                  <div class="contact-message">"Ya voy en camino, llegaré en 10 minutos 💜"</div>
+                </div>
+              </div>
+
+              <div class="notified-contact">
+                <div class="contact-avatar-lg" style="background: linear-gradient(135deg, #3F51B5, #283593)">L</div>
+                <div class="notified-contact-info">
+                  <div class="notified-contact-name">Laura Méndez</div>
+                  <div class="notified-contact-relation">Amiga • Contacto #2</div>
+                  <div class="notified-contact-status">
+                    <span class="status-badge status-responded">✓ SMS Enviado</span>
+                    <span class="status-badge status-read">📱 Leído</span>
+                  </div>
+                  <div class="contact-timestamp">Hace 4 segundos</div>
+                </div>
+              </div>
+
+              <div class="notified-contact">
+                <div class="contact-avatar-lg" style="background: linear-gradient(135deg, #FF9800, #F57C00)">A</div>
+                <div class="notified-contact-info">
+                  <div class="notified-contact-name">Ana Torres</div>
+                  <div class="notified-contact-relation">Prima • Contacto #3</div>
+                  <div class="notified-contact-status">
+                    <span class="status-badge status-sent">⏳ WhatsApp Pendiente</span>
+                  </div>
+                  <div class="contact-note">Sin respuesta aún</div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
-        
-        <div class="panic-modal-actions">
-          <button id="panicCallPolice" class="panic-action-btn police-btn">
-            📞 Llamar a Policía (105)
-          </button>
-          <button id="panicCallContact" class="panic-action-btn contact-btn">
-            📱 Llamar a Contacto de Confianza
-          </button>
-          <button id="panicCancelBtn" class="panic-action-btn cancel-btn">
-            🚫 Cancelar Alerta
-          </button>
-        </div>
-        
-        <div id="panicCancelForm" class="panic-cancel-form" style="display: none;">
-          <p class="cancel-instruction">Para cancelar, ingresa tu código PIN:</p>
-          <input type="password" id="panicPinInput" maxlength="4" placeholder="••••" />
-          <div class="cancel-form-actions">
-            <button id="panicConfirmCancel" class="btn-confirm-cancel">Confirmar Cancelación</button>
-            <button id="panicBackBtn" class="btn-back">Volver</button>
+
+        <aside class="alert-timeline-section">
+          <h3 class="timeline-title">Timeline en Vivo</h3>
+          <div class="alert-timeline">
+            <div class="timeline-item active" data-offset="0">
+              <div class="timeline-dot"></div>
+              <div class="timeline-content">
+                <div class="timeline-time">--:--:--</div>
+                <div class="timeline-event">Alerta Activada</div>
+                <div class="timeline-detail">Botón de pánico presionado</div>
+              </div>
+            </div>
+            <div class="timeline-item completed" data-offset="1">
+              <div class="timeline-dot"></div>
+              <div class="timeline-content">
+                <div class="timeline-time">--:--:--</div>
+                <div class="timeline-event">GPS Obtenido</div>
+                <div class="timeline-detail">Precisión: 48 metros</div>
+              </div>
+            </div>
+            <div class="timeline-item completed" data-offset="3">
+              <div class="timeline-dot"></div>
+              <div class="timeline-content">
+                <div class="timeline-time">--:--:--</div>
+                <div class="timeline-event">Notificaciones Enviadas</div>
+                <div class="timeline-detail">3 contactos vía SMS/WhatsApp</div>
+              </div>
+            </div>
+            <div class="timeline-item completed" data-offset="6">
+              <div class="timeline-dot"></div>
+              <div class="timeline-content">
+                <div class="timeline-time">--:--:--</div>
+                <div class="timeline-event">María Respondió</div>
+                <div class="timeline-detail">Llamada realizada (36 seg)</div>
+              </div>
+            </div>
+            <div class="timeline-item completed" data-offset="14">
+              <div class="timeline-dot"></div>
+              <div class="timeline-content">
+                <div class="timeline-time">--:--:--</div>
+                <div class="timeline-event">Laura Vio Ubicación</div>
+                <div class="timeline-detail">WhatsApp leído</div>
+              </div>
+            </div>
+          </div>
+        </aside>
+      </div>
+
+      <div class="alert-active-footer">
+        <div class="footer-status">
+          <div class="status-item">
+            <span class="status-icon">📶</span>
+            <span class="status-label">Conexión: Óptima</span>
+          </div>
+          <div class="status-item">
+            <span class="status-icon">🔋</span>
+            <span class="status-label">Batería: 78%</span>
+          </div>
+          <div class="status-item">
+            <span class="status-icon material-symbols-rounded">location_on</span>
+            <span class="status-label">GPS: ±8m</span>
+          </div>
+          <div class="status-item active-status">
+            <span class="status-icon material-symbols-rounded">timer</span>
+            <span class="status-label">Activa: 2:15</span>
           </div>
         </div>
       </div>
@@ -226,7 +385,10 @@
       <div class="chatbot-fullscreen-container">
         <div class="chatbot-header-full">
           <div class="chatbot-header-left">
-            <div class="luna-avatar">🤖</div>
+            <button id="toggleChatHistory" class="toggle-history-btn" aria-label="Ver historial de chats" title="Abrir historial">
+              <span class="material-symbols-rounded toggle-icon">menu</span>
+            </button>
+            <div class="luna-avatar"><span class="material-symbols-rounded">smart_toy</span></div>
             <div>
               <h2>Chat con Luna</h2>
               <p class="chatbot-subtitle">Tu asistente de apoyo 24/7</p>
@@ -234,13 +396,28 @@
           </div>
           <button id="closeChatbot" class="chatbot-close-btn" aria-label="Cerrar chat">✕</button>
         </div>
-        <div id="chatbotMessages" class="chatbot-messages-full">
-          <div class="chatbot-msg bot">¡Hola! Soy Luna, tu asistente de apoyo empático. Estoy aquí para escucharte y ayudarte. ¿Cómo te sientes hoy?</div>
+        <div class="chatbot-body-wrapper">
+          <aside id="chatHistory" class="chat-history-panel">
+            <div class="history-header">
+              <h3>Mis Conversaciones</h3>
+              <button id="newChatBtn" class="new-chat-btn">
+                <span class="material-symbols-rounded">add</span> Nueva
+              </button>
+            </div>
+            <div class="history-list" id="chatHistoryList">
+              <!-- Chat history items will be inserted here -->
+            </div>
+          </aside>
+          <div class="chat-main-area">
+            <div id="chatbotMessages" class="chatbot-messages-full">
+              <div class="chatbot-msg bot">¡Hola! Soy Luna, tu asistente de apoyo empático. Estoy aquí para escucharte y ayudarte. ¿Cómo te sientes hoy?</div>
+            </div>
+            <form id="chatbotForm" class="chatbot-form-full" autocomplete="off">
+              <input id="chatbotInput" type="text" placeholder="Escribe tu mensaje..." required />
+              <button type="submit"><span class="material-symbols-rounded">send</span> Enviar</button>
+            </form>
+          </div>
         </div>
-        <form id="chatbotForm" class="chatbot-form-full" autocomplete="off">
-          <input id="chatbotInput" type="text" placeholder="Escribe tu mensaje..." required />
-          <button type="submit">📤 Enviar</button>
-        </form>
       </div>
     </div>
 
@@ -251,6 +428,35 @@
     <script src="assets/scripts/dashboard-map.js"></script>
     <script src="assets/scripts/panic.js"></script>
     <script>
+      // Cargar nombre dinámico desde almacenamiento
+      (function() {
+        try {
+          const rawUser = localStorage.getItem('hersos_user') || localStorage.getItem('hersos_session');
+          let displayName = '';
+          if (rawUser) {
+            const data = JSON.parse(rawUser);
+            // Intentar diferentes posibles claves
+            displayName = data?.name || data?.nombre || data?.username || data?.usuario || '';
+          }
+          if (!displayName) {
+            // Fallback: intentar query param ?name=...
+            const params = new URLSearchParams(window.location.search);
+            displayName = params.get('name') || '';
+          }
+          if (!displayName) {
+            // Último recurso: mantener valor existente en DOM
+            const existing = document.getElementById('heroName')?.textContent?.trim() || document.getElementById('userGreeting')?.textContent?.trim();
+            displayName = existing || 'Usuario';
+          }
+          const heroEl = document.getElementById('heroName');
+          const greetEl = document.getElementById('userGreeting');
+          if (heroEl) heroEl.textContent = displayName.split(' ')[0];
+          if (greetEl) greetEl.textContent = displayName;
+        } catch (e) {
+          // Silencioso en caso de datos corruptos
+        }
+      })();
+
       function cerrarSesion() {
         if (confirm('¿Estás segura de que quieres cerrar sesión?')) {
           // Limpiar datos de sesión

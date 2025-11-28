@@ -3,6 +3,33 @@ document.addEventListener('DOMContentLoaded', () => {
   initializeFilters();
   initializeDetails();
   loadAlertHistory();
+  initializeDownloadHistory();
+// Descargar historial de alertas como CSV
+function initializeDownloadHistory() {
+  const btn = document.getElementById('downloadHistoryBtn');
+  if (!btn) return;
+  btn.addEventListener('click', () => {
+    const alertCards = document.querySelectorAll('.alerta-card');
+    let csv = 'Fecha,Estado,Tipo,Ubicación,Contactos\n';
+    alertCards.forEach(card => {
+      const date = card.querySelector('.alerta-time span:last-child')?.textContent.trim() || '';
+      const status = card.classList.contains('activa') ? 'Activa' : 'Resuelta';
+      const type = card.querySelector('.info-item:nth-child(1) span:last-child')?.textContent.trim() || '';
+      const location = card.querySelector('.info-item:nth-child(2) span:last-child')?.textContent.trim() || '';
+      const contacts = card.querySelector('.info-item:nth-child(3) span:last-child')?.textContent.trim() || '';
+      csv += `"${date}","${status}","${type}","${location}","${contacts}"\n`;
+    });
+    const blob = new Blob([csv], { type: 'text/csv' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'historial_alertas.csv';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  });
+}
 });
 
 // Filter tabs functionality
@@ -36,6 +63,7 @@ function filterAlerts(filter) {
     const alertDate = new Date(card.dataset.date);
     const currentMonth = new Date().getMonth();
     const alertMonth = alertDate.getMonth();
+    const hasPending = !!card.querySelector('.response-item.pending');
     
     let shouldShow = false;
     
@@ -48,6 +76,16 @@ function filterAlerts(filter) {
         break;
       case 'resueltas':
         shouldShow = isResolved;
+        break;
+      case 'activas':
+        shouldShow = isActive;
+        break;
+      case 'sin-respuesta':
+        shouldShow = hasPending;
+        break;
+      case 'avanzados':
+        // Placeholder: open advanced filters modal (future)
+        shouldShow = true;
         break;
     }
     
@@ -70,6 +108,8 @@ function updateFilterCounts() {
   let totalCount = allAlerts.length;
   let monthCount = 0;
   let resolvedCount = 0;
+  let activeCount = 0;
+  let noResponseCount = 0;
   
   allAlerts.forEach(card => {
     const alertDate = new Date(card.dataset.date);
@@ -82,12 +122,24 @@ function updateFilterCounts() {
     if (card.classList.contains('resuelta')) {
       resolvedCount++;
     }
+
+    if (card.classList.contains('activa')) {
+      activeCount++;
+    }
+
+    if (card.querySelector('.response-item.pending')) {
+      noResponseCount++;
+    }
   });
   
   // Update tab labels
   document.querySelector('[data-filter="todas"] .count').textContent = `(${totalCount})`;
   document.querySelector('[data-filter="mes"] .count').textContent = `(${monthCount})`;
   document.querySelector('[data-filter="resueltas"] .count').textContent = `(${resolvedCount})`;
+  const activasTab = document.querySelector('[data-filter="activas"] .count');
+  if (activasTab) activasTab.textContent = `(${activeCount})`;
+  const sinRespTab = document.querySelector('[data-filter="sin-respuesta"] .count');
+  if (sinRespTab) sinRespTab.textContent = `(${noResponseCount})`;
   
   // Update stats cards
   document.querySelector('.stat-card:nth-child(1) .stat-value').textContent = totalCount;
@@ -113,9 +165,9 @@ function showAlertDetails(alertCard) {
     date: alertCard.dataset.date,
     status: alertCard.classList.contains('activa') ? 'Activa' : 'Resuelta',
     time: alertCard.querySelector('.alerta-time').textContent.trim(),
-    type: alertCard.querySelector('.info-item:nth-child(1)').textContent.replace('🚨', '').trim(),
-    location: alertCard.querySelector('.info-item:nth-child(2)').textContent.replace('📍', '').trim(),
-    contacts: alertCard.querySelector('.info-item:nth-child(3)').textContent.replace('👥', '').trim()
+    type: alertCard.querySelector('.info-item:nth-child(1)').textContent.trim(),
+    location: alertCard.querySelector('.info-item:nth-child(2)').textContent.trim(),
+    contacts: alertCard.querySelector('.info-item:nth-child(3)').textContent.trim()
   };
   
   // Create modal
@@ -135,39 +187,39 @@ function showAlertDetails(alertCard) {
           </span>
         </div>
         <div class="detail-section">
-          <h3>⏰ Fecha y Hora</h3>
+          <h3><span class="material-symbols-rounded">schedule</span> Fecha y Hora</h3>
           <p>${alertData.time}</p>
         </div>
         <div class="detail-section">
-          <h3>🚨 Tipo de Alerta</h3>
+          <h3><span class="material-symbols-rounded">emergency</span> Tipo de Alerta</h3>
           <p>${alertData.type}</p>
         </div>
         <div class="detail-section">
-          <h3>📍 Ubicación</h3>
+          <h3><span class="material-symbols-rounded">location_on</span> Ubicación</h3>
           <p>${alertData.location}</p>
           <button class="view-map-btn" data-location="${alertData.location}">
-            🗺️ Ver en el Mapa
+            <span class="material-symbols-rounded">map</span> Ver en el Mapa
           </button>
         </div>
         <div class="detail-section">
-          <h3>👥 Contactos Notificados</h3>
+          <h3><span class="material-symbols-rounded">group</span> Contactos Notificados</h3>
           <p>${alertData.contacts}</p>
         </div>
         <div class="detail-section">
-          <h3>📞 Llamadas de Emergencia</h3>
+          <h3><span class="material-symbols-rounded">call</span> Llamadas de Emergencia</h3>
           <div class="emergency-calls">
             <a href="tel:105" class="emergency-call-btn">
-              <span>🚔</span> Policía (105)
+              <span class="material-symbols-rounded">local_police</span> Policía (105)
             </a>
             <a href="tel:116" class="emergency-call-btn">
-              <span>🚑</span> Ambulancia (116)
+              <span class="material-symbols-rounded">ambulance</span> Ambulancia (116)
             </a>
           </div>
         </div>
       </div>
       <div class="modal-footer">
         ${alertData.status === 'Activa' ? 
-          '<button class="cancel-alert-btn">❌ Cancelar Alerta</button>' : 
+          '<button class="cancel-alert-btn"><span class="material-symbols-rounded">cancel</span> Cancelar Alerta</button>' : 
           '<button class="close-modal-btn secondary">Cerrar</button>'
         }
       </div>
@@ -239,7 +291,7 @@ function showSuccessMessage(message) {
   const toast = document.createElement('div');
   toast.className = 'success-toast';
   toast.innerHTML = `
-    <span class="toast-icon">✅</span>
+    <span class="toast-icon material-symbols-rounded">check_circle</span>
     <span class="toast-message">${message}</span>
   `;
   
@@ -256,16 +308,51 @@ function showSuccessMessage(message) {
 // Load alert history from localStorage (if available)
 function loadAlertHistory() {
   const savedAlerts = localStorage.getItem('hersos_alert_history');
-  
-  if (savedAlerts) {
-    try {
-      const alerts = JSON.parse(savedAlerts);
-      // Here you could dynamically populate the page with saved alerts
-      console.log('Historial cargado:', alerts);
-    } catch (e) {
-      console.error('Error al cargar historial:', e);
-    }
+  if (!savedAlerts) return updateFilterCounts();
+  try {
+    const alerts = JSON.parse(savedAlerts);
+    renderStoredAlerts(alerts);
+    updateFilterCounts();
+  } catch (e) {
+    console.error('Error al cargar historial:', e);
   }
+}
+
+function renderStoredAlerts(alerts) {
+  const list = document.querySelector('.alertas-list');
+  if (!list || !Array.isArray(alerts)) return;
+  // Remove previous rendered stored entries
+  list.querySelectorAll('.alerta-card.stored').forEach(n => n.remove());
+
+  const frag = document.createDocumentFragment();
+  alerts.forEach(a => {
+    const statusClass = a.status === 'activa' ? 'activa' : 'resuelta';
+    const date = new Date(a.timestamp);
+    const timeLabel = date.toLocaleString('es-PE', { weekday:'long', hour:'2-digit', minute:'2-digit' });
+    const card = document.createElement('article');
+    card.className = `alerta-card ${statusClass} stored`;
+    card.dataset.id = a.id;
+    card.dataset.date = a.timestamp;
+    card.innerHTML = `
+      <div class="alerta-header">
+        <div class="alerta-time"><span class="time-icon material-symbols-rounded">schedule</span><span>${timeLabel}</span></div>
+        <span class="alerta-badge ${statusClass === 'activa' ? 'activa-badge' : 'resuelta-badge'}">${statusClass === 'activa' ? 'Activa' : 'Resuelta'}</span>
+      </div>
+      <div class="alerta-info">
+        <div class="info-item"><span class="info-icon material-symbols-rounded">emergency</span><span>${a.type || 'Botón de Pánico'}</span></div>
+        <div class="info-item"><span class="info-icon material-symbols-rounded">location_on</span><span>${a.address || '—'}</span></div>
+        <div class="info-item"><span class="info-icon material-symbols-rounded">group</span><span>${a.notified || 0} contactos notificados</span></div>
+      </div>
+      <div class="alerta-responses">
+        ${a.status === 'resuelta' ? '<div class="response-item responded"><span class="response-icon material-symbols-rounded">check_circle</span><span>Resuelta</span></div>' : '<div class="response-item pending"><span class="response-icon material-symbols-rounded">hourglass_empty</span><span>En curso</span></div>'}
+      </div>
+      <button class="ver-detalles-btn"><span class="eye-icon material-symbols-rounded">visibility</span>Ver Detalles</button>
+    `;
+    frag.appendChild(card);
+  });
+  // Insert at top of list
+  list.prepend(frag);
+  initializeDetails();
 }
 
 // Back button functionality

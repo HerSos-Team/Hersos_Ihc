@@ -1,6 +1,6 @@
 /**
  * Sistema de Botón de Pánico - HerSOS
- * Implementa el flujo completo de activación, envío, gestión offline y cancelación
+ * Modal fullscreen con activación por presión prolongada
  */
 
 (function() {
@@ -9,33 +9,61 @@
   // Estado del sistema de pánico
   let panicState = {
     isActive: false,
-    alertQueue: [], // Cola de alertas pendientes
-    userPIN: '1234', // PIN de seguridad (en producción vendría del perfil)
-    primaryContact: '+51987654321' // Contacto principal
+    isPressing: false,
+    pressTimer: null,
+    countdown: 3
   };
 
   // Elementos del DOM
-  const panicBtn = document.getElementById('panicBtn');
-  const panicCardBtn = document.querySelector('[data-action="panic"]');
   const panicModal = document.getElementById('panicModal');
-  const statusMessage = document.getElementById('panicStatusMessage');
-  const progressFill = document.querySelector('.panic-progress-fill');
-  const locationEl = document.getElementById('panicLocation');
-  const timeEl = document.getElementById('panicTime');
-  const connectionStatusEl = document.getElementById('panicConnectionStatus');
+  const panicCardBtn = document.querySelector('[data-action="panic"]');
+  const panicMainButton = document.getElementById('panicMainButton');
+  const panicTimer = document.getElementById('panicTimer');
+  const panicStatusText = document.getElementById('panicStatusText');
+  const closePanicModal = document.getElementById('closePanicModal');
   
-  // Botones de acción
-  const callPoliceBtn = document.getElementById('panicCallPolice');
-  const callContactBtn = document.getElementById('panicCallContact');
-  const cancelBtn = document.getElementById('panicCancelBtn');
-  const confirmCancelBtn = document.getElementById('panicConfirmCancel');
-  const backBtn = document.getElementById('panicBackBtn');
+  // Elementos de Alerta Activa
+  const alertActiveModal = document.getElementById('alertActiveModal');
+  const cancelAlertBtn = document.getElementById('cancelAlertBtn');
+  const call911Btn = document.getElementById('call911Btn');
+  const alertActiveTime = document.getElementById('alertActiveTime');
+  const alertDuration = document.getElementById('alertDuration');
+  const alertAddress = document.getElementById('alertAddress');
+
+  // Variables de tiempo
+  let alertStartTime = null;
+  let durationInterval = null;
+  let alertMap = null;
+  let alertMarker = null;
+  let currentAlertId = null;
+
+  // Helpers: storage
+  function loadAlerts() {
+    try {
+      return JSON.parse(localStorage.getItem('hersos_alert_history') || '[]');
+    } catch { return []; }
+  }
+
+  function saveAlerts(list) {
+    localStorage.setItem('hersos_alert_history', JSON.stringify(list));
+  }
+
+  function createAlertRecord(partial) {
+    const list = loadAlerts();
+    list.unshift(partial);
+    saveAlerts(list);
+  }
+
+  function updateAlertRecord(id, update) {
+    const list = loadAlerts();
+    const idx = list.findIndex(a => a.id === id);
+    if (idx !== -1) {
+      list[idx] = { ...list[idx], ...update };
+      saveAlerts(list);
+    }
+  }
   
-  // Formulario de cancelación
-  const cancelForm = document.getElementById('panicCancelForm');
-  const pinInput = document.getElementById('panicPinInput');
-  
-  // Audio de alerta (simulado con Web Audio API)
+  // Audio de alerta
   function playAlertSound() {
     try {
       const audioContext = new (window.AudioContext || window.webkitAudioContext)();
@@ -58,151 +86,356 @@
     }
   }
 
-  // Sonido de confirmación
-  function playSuccessSound() {
-    try {
-      const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-      const oscillator = audioContext.createOscillator();
-      const gainNode = audioContext.createGain();
-      
-      oscillator.connect(gainNode);
-      gainNode.connect(audioContext.destination);
-      
-      oscillator.frequency.value = 523.25; // C5
-      oscillator.type = 'sine';
-      
-      gainNode.gain.setValueAtTime(0.2, audioContext.currentTime);
-      gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3);
-      
-      oscillator.start(audioContext.currentTime);
-      oscillator.stop(audioContext.currentTime + 0.3);
-    } catch (e) {
-      console.log('Audio no disponible');
-    }
-  }
-
-  // Obtener ubicación actual
-  function getCurrentLocation() {
-    return new Promise((resolve) => {
-      if ('geolocation' in navigator) {
-        navigator.geolocation.getCurrentPosition(
-          (position) => {
-            const lat = position.coords.latitude.toFixed(6);
-            const lng = position.coords.longitude.toFixed(6);
-            resolve(`${lat}, ${lng}`);
-          },
-          () => {
-            resolve('Ubicación no disponible');
-          },
-          { timeout: 5000 }
-        );
-      } else {
-        resolve('GPS no soportado');
-      }
-    });
-  }
-
-  // Simular envío de alerta (con posibilidad de fallo)
-  function sendAlert(alertData) {
-    return new Promise((resolve, reject) => {
-      // Simular verificación de conexión (20% de probabilidad de fallo)
-      const hasConnection = Math.random() > 0.2;
-      
-      setTimeout(() => {
-        if (hasConnection) {
-          resolve({ success: true, message: 'Alerta enviada exitosamente' });
-        } else {
-          reject({ success: false, message: 'Sin conexión a internet' });
-        }
-      }, 2000); // Simular latencia de red
-    });
-  }
-
-  // Guardar alerta en cola local
-  function saveToQueue(alertData) {
-    const queueItem = {
-      ...alertData,
-      status: 'pending',
-      queuedAt: new Date().toISOString()
-    };
-    
-    panicState.alertQueue.push(queueItem);
-    localStorage.setItem('hersosAlertQueue', JSON.stringify(panicState.alertQueue));
-    
-    console.log('Alerta guardada en cola:', queueItem);
-  }
-
-  // Reenviar alertas pendientes
-  function retryQueuedAlerts() {
-    const queue = panicState.alertQueue.filter(item => item.status === 'pending');
-    
-    if (queue.length === 0) return;
-    
-    console.log(`Reenviando ${queue.length} alertas pendientes...`);
-    
-    queue.forEach(async (alert, index) => {
-      try {
-        const result = await sendAlert(alert);
-        if (result.success) {
-          panicState.alertQueue[index].status = 'sent';
-          panicState.alertQueue[index].sentAt = new Date().toISOString();
-          localStorage.setItem('hersosAlertQueue', JSON.stringify(panicState.alertQueue));
-          playSuccessSound();
-          showToast('✅ Alerta pendiente enviada', 'success');
-        }
-      } catch (error) {
-        console.log('Aún sin conexión para reenvío');
-      }
-    });
-  }
-
-  // Mostrar modal de pánico
+  // Abrir modal
   function openPanicModal() {
-    panicModal.classList.add('active');
-    panicModal.setAttribute('aria-hidden', 'false');
-    document.body.style.overflow = 'hidden';
-  }
-
-  // Cerrar modal de pánico
-  function closePanicModal() {
-    panicModal.classList.remove('active');
-    panicModal.setAttribute('aria-hidden', 'true');
-    document.body.style.overflow = '';
-    
-    // Resetear estado
-    cancelForm.style.display = 'none';
-    pinInput.value = '';
-    progressFill.className = 'panic-progress-fill';
-  }
-
-  // Actualizar UI del modal
-  function updateModalUI(status, message) {
-    statusMessage.textContent = message;
-    
-    progressFill.className = 'panic-progress-fill';
-    
-    switch(status) {
-      case 'sending':
-        progressFill.classList.add('sending');
-        connectionStatusEl.textContent = 'Enviando...';
-        connectionStatusEl.style.color = '#FFA726';
-        break;
-      case 'sent':
-        progressFill.classList.add('sent');
-        connectionStatusEl.textContent = '✓ Enviado';
-        connectionStatusEl.style.color = '#4CAF50';
-        break;
-      case 'offline':
-        progressFill.classList.add('offline');
-        connectionStatusEl.textContent = '⚠ Sin conexión';
-        connectionStatusEl.style.color = '#FF6B6B';
-        break;
-      default:
-        connectionStatusEl.textContent = 'Conectado';
+    if (panicModal) {
+      panicModal.classList.add('active');
+      panicModal.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
     }
   }
 
-  // Mostrar toast de notificación
+  // Cerrar modal
+  function closePanicModalView() {
+    if (panicModal) {
+      panicModal.classList.remove('active');
+      panicModal.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+      resetPanicButton();
+    }
+  }
+
+  // Resetear botón
+  function resetPanicButton() {
+    if (panicMainButton) {
+      panicMainButton.classList.remove('pressing');
+    }
+    if (panicTimer) {
+      panicTimer.style.display = 'none';
+    }
+    if (panicStatusText) {
+      panicStatusText.textContent = 'Alerta: Ctrl + Shift + P';
+    }
+    panicState.isPressing = false;
+    panicState.countdown = 3;
+    panicState.isActive = false;
+    clearInterval(panicState.pressTimer);
+  }
+
+  // Iniciar cuenta regresiva
+  function startCountdown() {
+    panicState.isPressing = true;
+    panicState.countdown = 3;
+    
+    if (panicMainButton) {
+      panicMainButton.classList.add('pressing');
+    }
+    if (panicTimer) {
+      panicTimer.style.display = 'block';
+      panicTimer.textContent = panicState.countdown;
+    }
+    if (panicStatusText) {
+      panicStatusText.textContent = 'Manteniendo presionado...';
+    }
+
+    panicState.pressTimer = setInterval(() => {
+      panicState.countdown--;
+      
+      if (panicTimer) {
+        panicTimer.textContent = panicState.countdown;
+      }
+      
+      if (panicState.countdown <= 0) {
+        activatePanic();
+      }
+    }, 1000);
+  }
+
+  // Cancelar cuenta regresiva
+  function cancelCountdown() {
+    if (panicState.isPressing) {
+      clearInterval(panicState.pressTimer);
+      if (panicMainButton) {
+        panicMainButton.classList.remove('pressing');
+      }
+      if (panicTimer) {
+        panicTimer.style.display = 'none';
+      }
+      if (panicStatusText && !panicState.isActive) {
+        panicStatusText.textContent = 'Alerta: Ctrl + Shift + P';
+      }
+      panicState.isPressing = false;
+      panicState.countdown = 3;
+    }
+  }
+
+  // Activar pánico
+  function activatePanic() {
+    clearInterval(panicState.pressTimer);
+    panicState.isActive = true;
+    panicState.isPressing = false;
+    
+    playAlertSound();
+    
+    if (panicStatusText) {
+      panicStatusText.textContent = '🚨 ¡ALERTA ACTIVADA!';
+    }
+    if (panicTimer) {
+      panicTimer.style.display = 'none';
+    }
+
+    // Registrar alerta en almacenamiento
+    currentAlertId = 'alert_' + Date.now();
+    const alertData = {
+      id: currentAlertId,
+      status: 'activa',
+      timestamp: new Date().toISOString(),
+      type: 'Botón de Pánico Manual',
+      address: 'Obteniendo ubicación...',
+      coords: null,
+      notified: 3
+    };
+    createAlertRecord(alertData);
+    
+    // Mostrar confirmación temporal
+    setTimeout(() => {
+      if (panicStatusText) {
+        panicStatusText.textContent = '✅ Contactos notificados';
+      }
+      
+      // Transición a vista de Alerta Activa
+      setTimeout(() => {
+        showAlertActiveView();
+      }, 1500);
+    }, 1000);
+  }
+
+  // Mostrar vista de Alerta Activa
+  function showAlertActiveView() {
+    // Cerrar modal de pánico
+    if (panicModal) {
+      panicModal.classList.remove('active');
+      panicModal.setAttribute('aria-hidden', 'true');
+    }
+
+    // Abrir modal de alerta activa
+    if (alertActiveModal) {
+      alertActiveModal.style.display = 'flex';
+      alertActiveModal.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+
+      // Iniciar reloj y contador de duración
+      alertStartTime = new Date();
+      updateAlertTime();
+      
+      durationInterval = setInterval(() => {
+        updateAlertDuration();
+        updateTimelineTimes();
+      }, 1000);
+
+      // Inicializar mapa
+      setTimeout(() => {
+        initAlertMap();
+      }, 300);
+
+      // Simular obtención de ubicación
+      if (alertAddress) {
+        setTimeout(() => {
+          alertAddress.innerHTML = `
+            Av. Insurgentes Sur 458<br>
+            Roma Norte, Ciudad de México, 06700<br>
+            <span class="location-coords">19.4326° N, 99.1332° W</span>
+          `;
+          updateAlertRecord(currentAlertId, { address: 'Av. Insurgentes Sur 458, Roma Norte, Ciudad de México 06700' });
+        }, 800);
+      }
+    }
+  }
+
+  // Actualiza las horas del timeline según offset
+  function updateTimelineTimes() {
+    if (!alertStartTime) return;
+    const items = document.querySelectorAll('#alertActiveModal .timeline-item');
+    items.forEach((item) => {
+      const offsetSec = parseInt(item.getAttribute('data-offset') || '0', 10);
+      const timeEl = item.querySelector('.timeline-time');
+      if (!timeEl) return;
+      const t = new Date(alertStartTime.getTime() + offsetSec * 1000);
+      timeEl.textContent = t.toLocaleTimeString('es-PE', {
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit'
+      });
+    });
+  }
+
+  // Inicializar mapa de alerta
+  function initAlertMap() {
+    const mapContainer = document.getElementById('alertMap');
+    if (!mapContainer || typeof L === 'undefined') return;
+
+    // Coordenadas por defecto (Ciudad de México - Roma Norte)
+    const defaultLat = 19.4326;
+    const defaultLng = -99.1332;
+
+    // Crear mapa
+    alertMap = L.map('alertMap', {
+      zoomControl: true,
+      attributionControl: false
+    }).setView([defaultLat, defaultLng], 16);
+
+    // Capa de OpenStreetMap
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19
+    }).addTo(alertMap);
+
+    // Icono personalizado para el marcador
+    const customIcon = L.divIcon({
+      className: 'custom-alert-marker',
+      html: '<div style="background: linear-gradient(135deg, #FF1964, #D81B60); width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; box-shadow: 0 4px 12px rgba(255,25,100,0.5); border: 4px solid white; font-size: 20px;">📍</div>',
+      iconSize: [40, 40],
+      iconAnchor: [20, 20]
+    });
+
+    // Agregar marcador
+    alertMarker = L.marker([defaultLat, defaultLng], { icon: customIcon })
+      .addTo(alertMap)
+      .bindPopup('<strong style="color: #D81B60;">📍 Tu Ubicación Actual</strong><br>Alerta activada desde aquí')
+      .openPopup();
+
+    // Círculo de precisión (48 metros)
+    L.circle([defaultLat, defaultLng], {
+      color: '#FF1964',
+      fillColor: '#FF1964',
+      fillOpacity: 0.15,
+      radius: 48,
+      weight: 2
+    }).addTo(alertMap);
+
+    // Intentar obtener ubicación real del usuario
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const lat = position.coords.latitude;
+          const lng = position.coords.longitude;
+          const accuracy = position.coords.accuracy;
+
+          // Actualizar mapa con ubicación real
+          alertMap.setView([lat, lng], 16);
+          alertMarker.setLatLng([lat, lng]);
+          
+          // Actualizar dirección
+          if (alertAddress) {
+            alertAddress.innerHTML = `
+              <em>Obteniendo dirección exacta...</em><br>
+              <span class="location-coords">${lat.toFixed(6)}° N, ${lng.toFixed(6)}° W</span>
+            `;
+
+            // Reverse geocoding usando Nominatim
+            fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&zoom=18&addressdetails=1`)
+              .then(res => res.json())
+              .then(data => {
+                if (data.address && alertAddress) {
+                  const addr = data.address;
+                  const street = addr.road || addr.pedestrian || '';
+                  const number = addr.house_number || '';
+                  const neighborhood = addr.neighbourhood || addr.suburb || '';
+                  const city = addr.city || addr.town || addr.village || '';
+                  const postcode = addr.postcode || '';
+
+                  alertAddress.innerHTML = `
+                    ${street} ${number}<br>
+                    ${neighborhood}, ${city}${postcode ? ', ' + postcode : ''}<br>
+                    <span class="location-coords">${lat.toFixed(6)}° N, ${lng.toFixed(6)}° W</span>
+                  `;
+                  updateAlertRecord(currentAlertId, {
+                    address: `${street} ${number}, ${neighborhood}, ${city} ${postcode}`.trim(),
+                    coords: { lat, lng }
+                  });
+                }
+              })
+              .catch(() => {
+                // Mantener coordenadas si falla geocoding
+              });
+          }
+
+          // Actualizar círculo de precisión
+          L.circle([lat, lng], {
+            color: '#FF1964',
+            fillColor: '#FF1964',
+            fillOpacity: 0.15,
+            radius: accuracy,
+            weight: 2
+          }).addTo(alertMap);
+
+          // Actualizar popup
+          alertMarker.bindPopup(`<strong style="color: #D81B60;">📍 Tu Ubicación Actual</strong><br>Precisión: ±${Math.round(accuracy)}m`).openPopup();
+        },
+        (error) => {
+          console.log('Error obteniendo ubicación:', error);
+        },
+        {
+          enableHighAccuracy: true,
+          timeout: 5000,
+          maximumAge: 0
+        }
+      );
+    }
+  }
+
+  // Actualizar hora de la alerta
+  function updateAlertTime() {
+    if (alertActiveTime && alertStartTime) {
+      const timeStr = alertStartTime.toLocaleTimeString('es-PE', { 
+        hour: '2-digit', 
+        minute: '2-digit',
+        second: '2-digit'
+      });
+      alertActiveTime.textContent = timeStr;
+    }
+  }
+
+  // Actualizar duración de la alerta
+  function updateAlertDuration() {
+    if (alertDuration && alertStartTime) {
+      const now = new Date();
+      const diffMs = now - alertStartTime;
+      const minutes = Math.floor(diffMs / 60000);
+      const seconds = Math.floor((diffMs % 60000) / 1000);
+      alertDuration.textContent = `Activa hace: ${minutes} min ${seconds} seg`;
+    }
+  }
+
+  // Cerrar vista de Alerta Activa
+  function closeAlertActiveView() {
+    if (alertActiveModal) {
+      alertActiveModal.style.display = 'none';
+      alertActiveModal.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    }
+    
+    // Destruir mapa si existe
+    if (alertMap) {
+      alertMap.remove();
+      alertMap = null;
+      alertMarker = null;
+    }
+    
+    clearInterval(durationInterval);
+    alertStartTime = null;
+    panicState.isActive = false;
+    resetPanicButton();
+    // Marcar alerta como resuelta en historial
+    if (currentAlertId) {
+      updateAlertRecord(currentAlertId, {
+        status: 'resuelta',
+        closedAt: new Date().toISOString()
+      });
+      currentAlertId = null;
+    }
+  }
+
+  // Mostrar toast
   function showToast(message, type = 'info') {
     const toast = document.getElementById('toast');
     if (!toast) return;
@@ -215,216 +448,108 @@
     }, 4000);
   }
 
-  // Activar botón de pánico
-  async function activatePanic() {
-    if (panicState.isActive) return;
-    
-    panicState.isActive = true;
-    playAlertSound();
-    openPanicModal();
-    
-    // Actualizar hora
-    const now = new Date();
-    timeEl.textContent = now.toLocaleTimeString('es-PE', { hour: '2-digit', minute: '2-digit' });
-    
-    // Obtener ubicación
-    updateModalUI('sending', 'Obteniendo tu ubicación...');
-    const location = await getCurrentLocation();
-    locationEl.textContent = location;
-    
-    // Crear datos de alerta
-    const alertData = {
-      timestamp: now.toISOString(),
-      location: location,
-      message: '🚨 ALERTA DE EMERGENCIA: Necesito ayuda urgente',
-      userId: sessionStorage.getItem('hersosUser') || 'Usuario',
-      type: 'panic'
-    };
-    
-    // Intentar enviar
-    updateModalUI('sending', 'Enviando alerta a tus contactos de confianza...');
-    
-    try {
-      const result = await sendAlert(alertData);
-      
-      if (result.success) {
-        updateModalUI('sent', '✅ Alerta enviada exitosamente a tus contactos');
-        playSuccessSound();
-        showToast('Alerta enviada. Tus contactos han sido notificados.', 'success');
-      }
-    } catch (error) {
-      // Sin conexión - guardar en cola
-      updateModalUI('offline', '⚠️ Sin conexión. Alerta guardada para reenviar.');
-      saveToQueue(alertData);
-      showToast('Sin conexión. La alerta se enviará cuando regrese la señal.', 'warning');
-      
-      // Intentar reenvío periódico
-      const retryInterval = setInterval(() => {
-        if (navigator.onLine) {
-          retryQueuedAlerts();
-          clearInterval(retryInterval);
-        }
-      }, 5000);
-    }
-  }
-
-  // Cancelar alerta
-  function showCancelForm() {
-    cancelForm.style.display = 'block';
-    pinInput.focus();
-  }
-
-  function hideCancelForm() {
-    cancelForm.style.display = 'none';
-    pinInput.value = '';
-  }
-
-  function confirmCancellation() {
-    const enteredPIN = pinInput.value.trim();
-    
-    if (enteredPIN === panicState.userPIN) {
-      panicState.isActive = false;
-      showToast('Alerta cancelada exitosamente', 'info');
-      closePanicModal();
-    } else {
-      showToast('❌ PIN incorrecto. Intenta nuevamente.', 'error');
-      pinInput.value = '';
-      pinInput.focus();
-    }
-  }
-
   // Event Listeners
-  if (panicBtn) {
-    let holdTimer;
-    
-    panicBtn.addEventListener('mousedown', () => {
-      holdTimer = setTimeout(() => {
-        activatePanic();
-      }, 3000); // 3 segundos de mantener presionado
-    });
-    
-    panicBtn.addEventListener('mouseup', () => {
-      clearTimeout(holdTimer);
-    });
-    
-    panicBtn.addEventListener('mouseleave', () => {
-      clearTimeout(holdTimer);
-    });
-    
-    // Para móvil
-    panicBtn.addEventListener('touchstart', () => {
-      holdTimer = setTimeout(() => {
-        activatePanic();
-      }, 3000);
-    });
-    
-    panicBtn.addEventListener('touchend', () => {
-      clearTimeout(holdTimer);
-    });
-  }
-
-  // Botón de pánico en el grid principal
+  
+  // Click en tarjeta de pánico para abrir modal
   if (panicCardBtn) {
-    let holdTimer;
-    
-    panicCardBtn.addEventListener('mousedown', () => {
-      holdTimer = setTimeout(() => {
-        activatePanic();
-      }, 3000);
-    });
-    
-    panicCardBtn.addEventListener('mouseup', () => {
-      clearTimeout(holdTimer);
-    });
-    
-    panicCardBtn.addEventListener('mouseleave', () => {
-      clearTimeout(holdTimer);
-    });
-    
-    // Para móvil
-    panicCardBtn.addEventListener('touchstart', (e) => {
+    panicCardBtn.addEventListener('click', (e) => {
       e.preventDefault();
-      holdTimer = setTimeout(() => {
-        activatePanic();
-      }, 3000);
+      openPanicModal();
+    });
+  }
+
+  // Botón principal de pánico (presión prolongada)
+  if (panicMainButton) {
+    // Mouse events
+    panicMainButton.addEventListener('mousedown', () => {
+      if (!panicState.isActive) {
+        startCountdown();
+      }
     });
     
-    panicCardBtn.addEventListener('touchend', () => {
-      clearTimeout(holdTimer);
+    panicMainButton.addEventListener('mouseup', () => {
+      cancelCountdown();
+    });
+    
+    panicMainButton.addEventListener('mouseleave', () => {
+      cancelCountdown();
+    });
+    
+    // Touch events para móvil
+    panicMainButton.addEventListener('touchstart', (e) => {
+      e.preventDefault();
+      if (!panicState.isActive) {
+        startCountdown();
+      }
+    });
+    
+    panicMainButton.addEventListener('touchend', (e) => {
+      e.preventDefault();
+      cancelCountdown();
+    });
+    
+    panicMainButton.addEventListener('touchcancel', () => {
+      cancelCountdown();
     });
   }
 
-  // Llamar a la policía
-  if (callPoliceBtn) {
-    callPoliceBtn.addEventListener('click', () => {
-      window.location.href = 'tel:105';
-    });
+  // Botón cerrar modal
+  if (closePanicModal) {
+    closePanicModal.addEventListener('click', closePanicModalView);
   }
 
-  // Llamar a contacto de confianza
-  if (callContactBtn) {
-    callContactBtn.addEventListener('click', () => {
-      window.location.href = `tel:${panicState.primaryContact}`;
-    });
-  }
-
-  // Mostrar formulario de cancelación
-  if (cancelBtn) {
-    cancelBtn.addEventListener('click', showCancelForm);
-  }
-
-  // Confirmar cancelación
-  if (confirmCancelBtn) {
-    confirmCancelBtn.addEventListener('click', confirmCancellation);
-  }
-
-  // Volver desde formulario de cancelación
-  if (backBtn) {
-    backBtn.addEventListener('click', hideCancelForm);
-  }
-
-  // Enter en input de PIN
-  if (pinInput) {
-    pinInput.addEventListener('keypress', (e) => {
-      if (e.key === 'Enter') {
-        confirmCancellation();
+  // Botón cancelar alerta activa
+  if (cancelAlertBtn) {
+    cancelAlertBtn.addEventListener('click', () => {
+      if (confirm('¿Estás segura de cancelar la alerta activa? Tus contactos serán notificados.')) {
+        closeAlertActiveView();
+        showToast('Alerta cancelada. Contactos notificados.', 'info');
+        // Redirigir a historial para verificar registro
+        setTimeout(() => { window.location.href = 'historial.html'; }, 600);
       }
     });
   }
 
-  // Cargar cola de alertas pendientes al iniciar
-  window.addEventListener('load', () => {
-    const savedQueue = localStorage.getItem('hersosAlertQueue');
-    if (savedQueue) {
-      panicState.alertQueue = JSON.parse(savedQueue);
-      
-      // Intentar reenviar si hay conexión
-      if (navigator.onLine) {
-        retryQueuedAlerts();
+  // Botón llamar 911
+  if (call911Btn) {
+    call911Btn.addEventListener('click', () => {
+      window.location.href = 'tel:911';
+    });
+  }
+
+  // Cerrar con ESC
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && panicModal && panicModal.classList.contains('active')) {
+      closePanicModalView();
+    }
+  });
+
+  // Atajo de teclado: Ctrl + Shift + P
+  document.addEventListener('keydown', (e) => {
+    if (e.ctrlKey && e.shiftKey && e.key === 'P') {
+      e.preventDefault();
+      if (panicModal && !panicModal.classList.contains('active')) {
+        openPanicModal();
       }
     }
   });
 
-  // Listener de reconexión
-  window.addEventListener('online', () => {
-    console.log('Conexión restaurada. Reenviando alertas pendientes...');
-    retryQueuedAlerts();
-  });
+  console.log('✓ Sistema de Pánico HerSOS inicializado');
 
-  window.addEventListener('offline', () => {
-    console.log('Conexión perdida. Las alertas se guardarán localmente.');
-  });
+  // Hook: abrir modal desde sidebar/nav
+  const openPanicFromSidebar = document.getElementById('openPanicFromSidebar');
+  if (openPanicFromSidebar) {
+    openPanicFromSidebar.addEventListener('click', (e) => { e.preventDefault(); openPanicModal(); });
+  }
 
-  // Cerrar modal al hacer clic fuera
-  panicModal.addEventListener('click', (e) => {
-    if (e.target === panicModal) {
-      // Solo permitir cerrar si la alerta ya fue enviada
-      if (progressFill.classList.contains('sent')) {
-        closePanicModal();
-        panicState.isActive = false;
-      }
-    }
-  });
+  // Hook: bottom nav panic button
+  const panicFooterBtn = document.getElementById('panicBtn');
+  if (panicFooterBtn) {
+    panicFooterBtn.addEventListener('click', (e) => { e.preventDefault(); openPanicModal(); });
+  }
 
-  console.log('Sistema de Pánico HerSOS inicializado ✓');
+  // Open via URL hash
+  if (window.location.hash === '#panic') {
+    setTimeout(() => openPanicModal(), 50);
+  }
 })();
